@@ -14,6 +14,7 @@ import JotaiProvider from "./_components/jotai-provider";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { HighlightInit } from "@highlight-run/next/client";
+import HighlightErrorBoundary from "~/app/_components/highlight-boundary";
 import { env } from "~/envClient";
 
 export const metadata: Metadata = {
@@ -31,27 +32,32 @@ export default function RootLayout({
       <HighlightInit
         projectId={env.NEXT_PUBLIC_HIGHLIGHT_PROJECT_ID}
         serviceName="my-nextjs-frontend"
-        tracingOrigins
+        storageMode="sessionStorage"
+        tracingOrigins={["/api/trpc"]}
+        environment={env.NEXT_PUBLIC_HIGHLIGHT_ENV}
         networkRecording={{
           enabled: true,
           recordHeadersAndBody: true,
           urlBlocklist: [],
         }}
+        debug
       />
-      <html lang="en" className={`${GeistSans.variable}`}>
-        <body>
-          <TRPCReactProvider>
-            <JotaiProvider>
-              <SidebarProvider>
-                <Home>{children}</Home>
-              </SidebarProvider>
-            </JotaiProvider>
-          </TRPCReactProvider>
-          <Toaster />
-          <Analytics />
-          <SpeedInsights />
-        </body>
-      </html>
+      <HighlightErrorBoundary>
+        <html lang="en" className={`${GeistSans.variable}`}>
+          <body>
+            <TRPCReactProvider>
+              <JotaiProvider>
+                <SidebarProvider>
+                  <Home>{children}</Home>
+                </SidebarProvider>
+              </JotaiProvider>
+            </TRPCReactProvider>
+            <Toaster />
+            <Analytics />
+            <SpeedInsights />
+          </body>
+        </html>
+      </HighlightErrorBoundary>
     </ClerkProvider>
   );
 }
