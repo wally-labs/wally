@@ -1,4 +1,5 @@
 import { CheckIcon } from "lucide-react";
+import { cn } from "~/lib/utils";
 
 const tiers: Tier[] = [
   {
@@ -44,15 +45,14 @@ interface Tier {
   featured: boolean;
 }
 
-function classNames(...classes: (string | boolean)[]): string {
-  return classes.filter(Boolean).join(" ");
-}
-
 export default function PricingPlan() {
   return (
     <div className="px-6 py-24 sm:py-12 lg:px-8">
       <div className="mx-auto max-w-4xl text-center">
-        <h2 className="text-xl font-semibold text-amberTheme-darker">
+        <h2
+          className="text-xl font-semibold text-amberTheme-darker"
+          data-cy="pricing-header"
+        >
           Pricing
         </h2>
         <p className="mt-2 text-balance text-5xl font-semibold tracking-tight text-amberTheme sm:text-6xl">
@@ -67,7 +67,7 @@ export default function PricingPlan() {
         {tiers.map((tier, tierIdx) => (
           <div
             key={tier.id}
-            className={classNames(
+            className={cn(
               tier.featured
                 ? "relative bg-gray-900 shadow-2xl"
                 : "bg-white/60 sm:mx-8 lg:mx-0",
@@ -81,16 +81,17 @@ export default function PricingPlan() {
           >
             <h3
               id={tier.id}
-              className={classNames(
+              className={cn(
                 tier.featured ? "text-amberTheme" : "text-amberTheme-darker",
                 "text-base/7 font-semibold",
               )}
+              data-cy="tier-headers"
             >
               {tier.name}
             </h3>
             <p className="mt-4 flex items-baseline gap-x-2">
               <span
-                className={classNames(
+                className={cn(
                   tier.featured ? "text-white" : "text-gray-900",
                   "text-5xl font-semibold tracking-tight",
                 )}
@@ -98,7 +99,7 @@ export default function PricingPlan() {
                 {tier.priceMonthly}
               </span>
               <span
-                className={classNames(
+                className={cn(
                   tier.featured ? "text-gray-400" : "text-gray-500",
                   "text-base",
                 )}
@@ -107,7 +108,7 @@ export default function PricingPlan() {
               </span>
             </p>
             <p
-              className={classNames(
+              className={cn(
                 tier.featured ? "text-gray-300" : "text-gray-600",
                 "mt-6 text-base/7",
               )}
@@ -116,21 +117,23 @@ export default function PricingPlan() {
             </p>
             <ul
               role="list"
-              className={classNames(
+              className={cn(
                 tier.featured ? "text-gray-300" : "text-gray-600",
                 "mt-8 space-y-3 text-sm/6 sm:mt-10",
               )}
+              data-cy="tier-lists"
             >
               {tier.features.map((feature) => (
                 <li key={feature} className="flex gap-x-3">
                   <CheckIcon
                     aria-hidden="true"
-                    className={classNames(
+                    className={cn(
                       tier.featured
                         ? "text-amberTheme"
                         : "text-amberTheme-darker",
                       "h-6 w-5 flex-none",
                     )}
+                    data-cy="tier-list-items"
                   />
                   {feature}
                 </li>
@@ -139,12 +142,13 @@ export default function PricingPlan() {
             <a
               href={tier.href}
               aria-describedby={tier.id}
-              className={classNames(
+              className={cn(
                 tier.featured
                   ? "shadow-xs hover:amberTheme bg-amberTheme-darker text-white focus-visible:outline-amberTheme"
                   : "text-amberTheme ring-1 ring-inset ring-amberTheme hover:ring-amberTheme-darker focus-visible:outline-amberTheme-darker",
                 "mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 sm:mt-10",
               )}
+              data-cy="purchase-link"
             >
               Get started today
             </a>

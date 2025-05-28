@@ -15,7 +15,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { HighlightInit } from "@highlight-run/next/client";
 import HighlightErrorBoundary from "~/app/_components/highlight-boundary";
-import { env } from "~/envClient";
+import { env } from "~/env-client";
 
 export const metadata: Metadata = {
   title: "Wally",

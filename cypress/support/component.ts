@@ -23,15 +23,52 @@ import { mount } from "cypress/react";
 // your custom command.
 // Alternatively, can be defined in cypress/support/component.d.ts
 // with a <reference path="./component" /> at the top of your spec.
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      mount: typeof mount;
-    }
-  }
-}
 
 Cypress.Commands.add("mount", mount);
 
-// Example use:
-// cy.mount(<MyComponent />)
+Cypress.Commands.add("getBySel", (selector, ...args) => {
+  return cy.get(`[data-test=${selector}]`, ...args);
+});
+
+Cypress.Commands.add("getBySelLike", (selector, ...args) => {
+  return cy.get(`[data-test*=${selector}]`, ...args);
+});
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      /**
+       * Mount a React component.
+       */
+      mount: typeof mount;
+
+      /**
+       * Get element by [data-test="…"].
+       * @example cy.getBySel('submit-button')
+       */
+      getBySel(
+        selector: string,
+        options?: Partial<
+          Cypress.Loggable &
+            Cypress.Timeoutable &
+            Cypress.Withinable &
+            Cypress.Shadow
+        >,
+      ): Chainable<JQuery<HTMLElement>>;
+
+      /**
+       * Get element by [data-test*="…"].
+       * @example cy.getBySelLike('user-')
+       */
+      getBySelLike(
+        selector: string,
+        options?: Partial<
+          Cypress.Loggable &
+            Cypress.Timeoutable &
+            Cypress.Withinable &
+            Cypress.Shadow
+        >,
+      ): Chainable<JQuery<HTMLElement>>;
+    }
+  }
+}
