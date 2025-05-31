@@ -29,19 +29,21 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider>
-      <HighlightInit
-        projectId={env.NEXT_PUBLIC_HIGHLIGHT_PROJECT_ID}
-        serviceName="my-nextjs-frontend"
-        storageMode="sessionStorage"
-        tracingOrigins={["/api/trpc"]}
-        environment={env.NEXT_PUBLIC_HIGHLIGHT_ENV}
-        networkRecording={{
-          enabled: true,
-          recordHeadersAndBody: true,
-          urlBlocklist: [],
-        }}
-        debug
-      />
+      {process.env.NODE_ENV === "production" && (
+        <HighlightInit
+          projectId={env.NEXT_PUBLIC_HIGHLIGHT_PROJECT_ID}
+          serviceName="my-nextjs-frontend"
+          storageMode="sessionStorage"
+          tracingOrigins={["/api/trpc"]}
+          environment={env.NEXT_PUBLIC_HIGHLIGHT_ENV}
+          networkRecording={{
+            // enabled: true,
+            // recordHeadersAndBody: true,
+            // urlBlocklist: [],
+            enabled: false,
+          }}
+        />
+      )}
       <HighlightErrorBoundary>
         <html lang="en" className={`${GeistSans.variable}`}>
           <body>
@@ -53,8 +55,8 @@ export default function RootLayout({
               </JotaiProvider>
             </TRPCReactProvider>
             <Toaster />
-            <Analytics />
-            <SpeedInsights />
+            <Analytics debug={false} />
+            <SpeedInsights debug={false} />
           </body>
         </html>
       </HighlightErrorBoundary>
