@@ -45,6 +45,9 @@ yarn-error.log*
 # idea files
 .idea
 
+# cypress artifacts
+cypress/artifacts
+
 # clerk users test
 clerk_users.json
 clerk_transformed_users.json

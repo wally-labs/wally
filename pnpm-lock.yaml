@@ -39,8 +39,8 @@ importers:
         specifier: ^7.9.20
         version: 7.9.20(@opentelemetry/api@1.9.0)(next@15.3.1(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@highlight-run/node':
-        specifier: ^3.12.4
-        version: 3.12.4(@opentelemetry/api@1.9.0)
+        specifier: ^3.12.10
+        version: 3.12.10(@opentelemetry/api@1.9.0)
       '@hookform/resolvers':
         specifier: ^3.10.0
         version: 3.10.0(react-hook-form@7.55.0(react@18.3.1))
@@ -445,6 +445,9 @@ packages:
     peerDependencies:
       next: '>=13'
       react: '>=17'
+
+  '@highlight-run/node@3.12.10':
+    resolution: {integrity: sha512-KGalr9PPXrb1PQ9U41tzHmiz/dn7KxI4fLOtxZxNLGLIPvumTDoY1AC+S1ZpA1YRmmfOSXWN0UXsJ023ZsZmKA==}
 
   '@highlight-run/node@3.12.4':
     resolution: {integrity: sha512-oOQuI2ZCrK3Gyji6xyIOpYkwGNjn8AzDbAwc81CeYfO2clCXL6yhY8ApiPM6HFecWJRw3UCWBt5kz2h9FXqB1A==}
@@ -2759,6 +2762,9 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
+  highlight.run@9.18.14:
+    resolution: {integrity: sha512-H6egsQbq16T//nimC4VvgBv3pVo6XsxsIhO/adV3+GJYhgy7QF8Y6hJm7yORhSolPTQCwz5XyNtdWDSE60FS5w==}
+
   highlight.run@9.18.8:
     resolution: {integrity: sha512-lJm4b+IONuUU/REWrzRLMRaXMdp2ZajoiWjIMGEYnLJvy1Tulb5n2W1c1N8P5DxiTQdusWTwy+Xt0g6ExOA2Dw==}
 
@@ -4484,6 +4490,15 @@ snapshots:
       - '@opentelemetry/api'
       - encoding
       - react-dom
+      - supports-color
+
+  '@highlight-run/node@3.12.10(@opentelemetry/api@1.9.0)':
+    dependencies:
+      '@prisma/instrumentation': 6.8.2(@opentelemetry/api@1.9.0)
+      highlight.run: 9.18.14
+      require-in-the-middle: 7.5.2
+    transitivePeerDependencies:
+      - '@opentelemetry/api'
       - supports-color
 
   '@highlight-run/node@3.12.4(@opentelemetry/api@1.9.0)':
@@ -6914,6 +6929,10 @@ snapshots:
   hasown@2.0.2:
     dependencies:
       function-bind: 1.1.2
+
+  highlight.run@9.18.14:
+    dependencies:
+      '@launchdarkly/js-client-sdk': 0.6.0
 
   highlight.run@9.18.8:
     dependencies:

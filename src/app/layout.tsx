@@ -14,7 +14,8 @@ import JotaiProvider from "./_components/jotai-provider";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { HighlightInit } from "@highlight-run/next/client";
-import { env } from "~/envClient";
+import HighlightErrorBoundary from "~/app/_components/highlight-boundary";
+import { env } from "~/env-client";
 
 export const metadata: Metadata = {
   title: "Wally",
@@ -28,30 +29,37 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider>
-      <HighlightInit
-        projectId={env.NEXT_PUBLIC_HIGHLIGHT_PROJECT_ID}
-        serviceName="my-nextjs-frontend"
-        tracingOrigins
-        networkRecording={{
-          enabled: true,
-          recordHeadersAndBody: true,
-          urlBlocklist: [],
-        }}
-      />
-      <html lang="en" className={`${GeistSans.variable}`}>
-        <body>
-          <TRPCReactProvider>
-            <JotaiProvider>
-              <SidebarProvider>
-                <Home>{children}</Home>
-              </SidebarProvider>
-            </JotaiProvider>
-          </TRPCReactProvider>
-          <Toaster />
-          <Analytics />
-          <SpeedInsights />
-        </body>
-      </html>
+      {process.env.NODE_ENV === "production" && (
+        <HighlightInit
+          projectId={env.NEXT_PUBLIC_HIGHLIGHT_PROJECT_ID}
+          serviceName="my-nextjs-frontend"
+          storageMode="sessionStorage"
+          tracingOrigins={["/api/trpc"]}
+          environment={env.NEXT_PUBLIC_HIGHLIGHT_ENV}
+          networkRecording={{
+            // enabled: true,
+            // recordHeadersAndBody: true,
+            // urlBlocklist: [],
+            enabled: false,
+          }}
+        />
+      )}
+      <HighlightErrorBoundary>
+        <html lang="en" className={`${GeistSans.variable}`}>
+          <body>
+            <TRPCReactProvider>
+              <JotaiProvider>
+                <SidebarProvider>
+                  <Home>{children}</Home>
+                </SidebarProvider>
+              </JotaiProvider>
+            </TRPCReactProvider>
+            <Toaster />
+            <Analytics debug={false} />
+            <SpeedInsights debug={false} />
+          </body>
+        </html>
+      </HighlightErrorBoundary>
     </ClerkProvider>
   );
 }

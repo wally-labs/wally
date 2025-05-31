@@ -1,6 +1,6 @@
-"use client";
+// TODO: this component is now obsolete delete in ui-optimization branch
 
-// NOT IN USE CURRENTLY
+"use client";
 
 import { CircleArrowRight } from "lucide-react";
 import ShineBorder from "@components/ui/shine-border";

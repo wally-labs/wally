@@ -37,7 +37,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@highlight-run/next": "^7.9.20",
-    "@highlight-run/node": "^3.12.4",
+    "@highlight-run/node": "^3.12.10",
     "@hookform/resolvers": "^3.10.0",
     "@pinecone-database/pinecone": "^5.0.2",
     "@prisma/client": "^5.14.0",
