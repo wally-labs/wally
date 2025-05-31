@@ -44,6 +44,13 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import {
+  countryOptions,
+  genderOptions,
+  languageOptions,
+  raceOptions,
+  relationshipOptions,
+} from "../constants/enums";
 
 export const languages = [
   { label: "English", value: "en" },
@@ -120,9 +127,18 @@ export function ProfileForm({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="male">Male</SelectItem>
+                      {genderOptions.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </SelectItem>
+                      ))}
+                      {/* <SelectItem value="male">Male</SelectItem>
                       <SelectItem value="female">Female</SelectItem>
-                      <SelectItem value="non-binary">Non-binary</SelectItem>
+                      <SelectItem value="non-binary">Non-Binary</SelectItem>
+                      <SelectItem value="others">Others</SelectItem>
+                      <SelectItem value="prefer-not-to-say">
+                        Prefer Not to Say
+                      </SelectItem> */}
                     </SelectContent>
                   </Select>
                   <FormDescription>Your partner&apos;s gender</FormDescription>
@@ -170,12 +186,17 @@ export function ProfileForm({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="family">Family</SelectItem>
+                      {relationshipOptions.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </SelectItem>
+                      ))}
+                      {/* <SelectItem value="family">Family</SelectItem>
                       <SelectItem value="friendship">Friendship</SelectItem>
                       <SelectItem value="partner">Romantic Partner</SelectItem>
                       <SelectItem value="married">Married</SelectItem>
                       <SelectItem value="colleague">Colleague</SelectItem>
-                      <SelectItem value="manager">Manager</SelectItem>
+                      <SelectItem value="manager">Manager</SelectItem> */}
                     </SelectContent>
                   </Select>
                   <FormDescription>
@@ -234,11 +255,16 @@ export function ProfileForm({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="chinese">Chinese</SelectItem>
+                      {raceOptions.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </SelectItem>
+                      ))}
+                      {/* <SelectItem value="chinese">Chinese</SelectItem>
                       <SelectItem value="malay">Malay</SelectItem>
                       <SelectItem value="indian">Indian</SelectItem>
                       <SelectItem value="eurasian">Eurasian</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
+                      <SelectItem value="other">Other</SelectItem> */}
                     </SelectContent>
                   </Select>
                   <FormDescription>Your partner&apos;s race</FormDescription>
@@ -264,11 +290,16 @@ export function ProfileForm({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="singapore">Singapore</SelectItem>
+                      {countryOptions.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </SelectItem>
+                      ))}
+                      {/* <SelectItem value="singapore">Singapore</SelectItem>
                       <SelectItem value="malaysia">Malaysia</SelectItem>
                       <SelectItem value="china">China</SelectItem>
                       <SelectItem value="india">India</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
+                      <SelectItem value="other">Other</SelectItem> */}
                     </SelectContent>
                   </Select>
                   <FormDescription>Your partner&apos;s race</FormDescription>
@@ -293,7 +324,7 @@ export function ProfileForm({
                           className="w-full justify-between rounded-md border px-3 py-2 text-left font-normal"
                         >
                           {field.value
-                            ? languages.find(
+                            ? languageOptions.find(
                                 (language) => language.value === field.value,
                               )?.label
                             : "Select language"}
@@ -310,19 +341,19 @@ export function ProfileForm({
                         <CommandList>
                           <CommandEmpty>Language not available.</CommandEmpty>
                           <CommandGroup>
-                            {languages.map((language) => (
+                            {languageOptions.map((opt) => (
                               <CommandItem
-                                value={language.label}
-                                key={language.value}
+                                value={opt.value}
+                                key={opt.value}
                                 onSelect={() => {
-                                  form.setValue("language", language.value);
+                                  form.setValue("language", opt.value);
                                 }}
                               >
-                                {language.label}
+                                {opt.label}
                                 <Check
                                   className={cn(
                                     "ml-auto",
-                                    language.value === field.value
+                                    opt.value === field.value
                                       ? "opacity-100"
                                       : "opacity-0",
                                   )}

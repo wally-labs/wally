@@ -27,6 +27,7 @@ import { marked } from "marked";
 import { UploadDropzone } from "~/lib/uploadthing";
 import type { Attachment } from "ai";
 import Image from "next/image";
+import { enumToLabel } from "../constants/enums";
 
 interface Emotion {
   emotion: string;
@@ -265,7 +266,7 @@ export default function ChatHome() {
             className="text-center text-xl font-semibold"
             style={{ color: profileColor }}
           >
-            {relationship}
+            {enumToLabel(relationship)}
           </h3>
         </div>
         <div>

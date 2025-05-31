@@ -67,7 +67,53 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-// Necessary for Wally 
+// Necessary for Wally, enums for Chat Model
+enum Gender {
+    MALE
+    FEMALE
+    NON_BINARY
+    OTHERS
+    PREFER_NOT_TO_SAY
+}
+
+enum Relationship {
+    FAMILY
+    FRIENDSHIP
+    ROMANTIC_PARTNER
+    MARRIED
+    COLLEAGUE
+    MANAGER
+}
+
+enum Race {
+    CHINESE
+    MALAY
+    INDIAN
+    EURASIAN
+    OTHERS
+}
+
+enum Country {
+    SINGAPORE
+    MALAYSIA
+    CHINA
+    OTHERS
+}
+
+enum Language {
+    ENGLISH
+    CHINESE
+    MALAY
+    TAMIL
+    JAPANESE
+    KOREAN
+    FRENCH
+    GERMAN
+    SPANISH
+    PORTUGUESE
+    RUSSIAN
+}
+
 model Chat {
     id           String    @id @default(cuid())
     userId       String
@@ -81,17 +127,18 @@ model Chat {
 
     // profile fields
     name         String
-    gender       String
+    gender       Gender
     birthDate    DateTime?
-    relationship String
+    relationship Relationship
     heartLevel   Int       @default(1) 
-    race         String? 
-    country      String?
-    language     String
+    race         Race? 
+    country      Country?
+    language     Language
     
     @@index([userId])
 }
 
+// enums for Message model
 enum Sender {
     USER
     WALLY
