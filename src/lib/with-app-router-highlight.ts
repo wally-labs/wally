@@ -1,16 +1,8 @@
 import "server-only";
 
-import { H } from "@highlight-run/next/server";
-console.log("Highlight H in lib:", H);
-import type { NextRequest } from "next/server";
-// import { wrapAppRouterHandler } from "@highlight-run/next/client";
+import { AppRouterHighlight } from "@highlight-run/next/server";
+import { env } from "~/env-client";
 
-export function withAppRouterHighlight<
-  Handler extends (req: NextRequest, ...args: unknown[]) => Promise<Response>,
->(handler: Handler) {
-  return (req: NextRequest, ...args: unknown[]) => {
-    return H.runWithHeaders("app-router-span", {}, () => handler(req, ...args));
-  };
-}
-
-// export const withAppRouterHighlight = wrapAppRouterHandler;
+export const withAppRouterHighlight = AppRouterHighlight({
+  projectID: env.NEXT_PUBLIC_HIGHLIGHT_PROJECT_ID,
+});

@@ -7,7 +7,7 @@ import { openai } from "@ai-sdk/openai";
 import { smoothStream, streamText } from "ai";
 import type { LanguageModelV1, UIMessage, TextStreamPart, ToolSet } from "ai";
 import { type NextRequest } from "next/server";
-// import { type IncomingMessage, type ServerResponse } from "http";
+import { withAppRouterHighlight } from "~/lib/with-app-router-highlight";
 
 // FOR STREAM OBJECT
 // const openAiElement = z.object({
@@ -58,7 +58,9 @@ const mixedLangTransform = () => {
   });
 };
 
-export async function POST(req: NextRequest) {
+async function sendMessageHandler(req: Request) {
+  const nextReq = req as NextRequest;
+
   const model: LanguageModelV1 = openai(
     // "ft:gpt-4o-mini-2024-07-18:personal:wally:BAqpHxk2", // training dataset #1 - 75 convos
     // "ft:gpt-4o-mini-2024-07-18:personal:wally:BArfmkN1", // training dataset #1 - 25 convos
@@ -73,7 +75,7 @@ export async function POST(req: NextRequest) {
     messages: UIMessage[];
     emotion: string;
     profileData: z.infer<typeof formSchema>;
-  } = (await req.json()) as {
+  } = (await nextReq.json()) as {
     messages: UIMessage[];
     emotion: string;
     profileData: z.infer<typeof formSchema>;
@@ -154,3 +156,5 @@ export async function POST(req: NextRequest) {
     sendUsage: false,
   });
 }
+
+export const POST = withAppRouterHighlight(sendMessageHandler);
