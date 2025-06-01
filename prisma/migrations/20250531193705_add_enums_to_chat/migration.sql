@@ -71,7 +71,7 @@ SET "country" = CASE
 END
 WHERE "country" IS NOT NULL;
 
--- Language normalization (update this!!!)
+-- Language normalization
 UPDATE "Chat"
 SET "language" = CASE
   WHEN lower("language") = 'en' THEN 'ENGLISH'

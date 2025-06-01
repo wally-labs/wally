@@ -139,6 +139,9 @@ export default function ChatHome() {
   //   },
   // );
 
+  // if true skip the next error toast
+  const skipNextErrorToast = useRef(false);
+
   // useChat() hook sends a HTTP POST request to /api/chat endpoint
   const {
     messages,
@@ -179,13 +182,20 @@ export default function ChatHome() {
     },
     onResponse: (response) => {
       console.log("Received HTTP response from server:", response);
+      if (response.status == 401 || response.status == 429) {
+        skipNextErrorToast.current = true;
+        toast.error(response.json());
+      }
     },
     onError: (error) => {
-      toast.error("An error occurred, ", {
-        description: error.name,
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        action: { label: "Retry", onClick: () => reload() },
-      });
+      console.log("error enters here too");
+      if (!skipNextErrorToast.current) {
+        toast.error("An error occurred: ", {
+          description: error.name,
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          action: { label: "Retry", onClick: () => reload() },
+        });
+      }
     },
   });
 
@@ -266,7 +276,7 @@ export default function ChatHome() {
             className="text-center text-xl font-semibold"
             style={{ color: profileColor }}
           >
-            {enumToLabel(relationship)}
+            {relationship && enumToLabel(relationship)}
           </h3>
         </div>
         <div>

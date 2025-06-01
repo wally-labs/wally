@@ -6,8 +6,10 @@ import { type formSchema } from "~/app/_components/schema";
 import { openai } from "@ai-sdk/openai";
 import { smoothStream, streamText } from "ai";
 import type { LanguageModelV1, UIMessage, TextStreamPart, ToolSet } from "ai";
-import { type NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { withAppRouterHighlight } from "~/lib/with-app-router-highlight";
+import { currentUser } from "@clerk/nextjs/server";
+import { ratelimit } from "~/server/db";
 
 // FOR STREAM OBJECT
 // const openAiElement = z.object({
@@ -60,6 +62,22 @@ const mixedLangTransform = () => {
 
 async function sendMessageHandler(req: Request) {
   const nextReq = req as NextRequest;
+  const user = await currentUser();
+  if (!user)
+    return NextResponse.json(
+      "Not authenticated, please login to use this service!",
+      { status: 401 },
+    );
+  const userId = user.id;
+
+  // check rate limit
+  const { success, reset } = await ratelimit.limit(userId);
+  if (!success) {
+    return NextResponse.json(
+      `Oops! It seems you've reached our rate limit for today. Please try again at ${new Date(reset).toLocaleString()}`,
+      { status: 429 },
+    );
+  }
 
   const model: LanguageModelV1 = openai(
     // "ft:gpt-4o-mini-2024-07-18:personal:wally:BAqpHxk2", // training dataset #1 - 75 convos

@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { Pinecone } from "@pinecone-database/pinecone";
 import { Redis } from "@upstash/redis";
+import { Ratelimit } from "@upstash/ratelimit";
 
 import { env } from "~/env-server";
 
@@ -18,12 +19,20 @@ const createPineconeClient = () =>
   });
 
 // Function to create a Redis Client
-const createRedisClient = () => Redis.fromEnv(); // Upstash auto pulls env vars from process.env
+const createRateLimiter = () => {
+  const redis = Redis.fromEnv(); // Upstash auto pulls env vars from process.env
+
+  return new Ratelimit({
+    redis: redis,
+    limiter: Ratelimit.fixedWindow(25, "1 d"),
+    prefix: "@upstash/ratelimit/wally",
+  });
+};
 
 const globalForPrisma = globalThis as unknown as {
   prisma: ReturnType<typeof createPrismaClient> | undefined;
   pinecone: ReturnType<typeof createPineconeClient> | undefined;
-  redis: ReturnType<typeof createRedisClient> | undefined;
+  ratelimit: ReturnType<typeof createRateLimiter> | undefined;
 };
 
 // Prisma Client Singleton
@@ -35,5 +44,5 @@ export const pinecone = globalForPrisma.pinecone ?? createPineconeClient();
 if (env.NODE_ENV !== "production") globalForPrisma.pinecone = pinecone;
 
 // Redis Client Singleton
-export const redis = globalForPrisma.redis ?? createRedisClient();
-if (env.NODE_ENV !== "production") globalForPrisma.redis = redis;
+export const ratelimit = globalForPrisma.ratelimit ?? createRateLimiter();
+if (env.NODE_ENV !== "production") globalForPrisma.ratelimit = ratelimit;
