@@ -131,8 +131,8 @@ Wally helps couples, friends, or colleagues engage in meaningful offline convers
 - [x] convert all restricted value fields to enums
 - [x] update tRPC backend to do type validation for enums, store values in state not enums
 - [ ] update config.ts/index.ts and src/api/auth
+- [ ] rate limits to each user on number of api calls (per day, maybe redis?)
 - [ ] convert to personal providers for auth, before launch
-- [ ] rate limits to each user on number of api calls (per month/day..)
 - [ ] use httpbatchstreamlink to stream trpc calls
 
 </details>

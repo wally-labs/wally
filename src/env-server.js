@@ -1,4 +1,5 @@
 import { createEnv } from "@t3-oss/env-nextjs";
+import { S } from "node_modules/@upstash/redis/zmscore-CjoCv9kz.mjs";
 import { z } from "zod";
 
 export const env = createEnv({
@@ -16,6 +17,8 @@ export const env = createEnv({
     AUTH_GOOGLE_ID: z.string().optional(),
     AUTH_GOOGLE_SECRET: z.string().optional(),
     POSTGRES_URL: z.string().url(),
+    UPSTASH_REDIS_REST_URL: z.string().url(),
+    UPSTASH_REDIS_REST_TOKEN: z.string(),
     PINECONE_API_KEY: z.string(),
     OPENAI_API_KEY: z.string(),
     CLERK_SIGNING_SECRET: z.string(),
@@ -34,6 +37,8 @@ export const env = createEnv({
     AUTH_GOOGLE_ID: process.env.AUTH_GOOGLE_ID ?? undefined,
     AUTH_GOOGLE_SECRET: process.env.AUTH_GOOGLE_SECRET ?? undefined,
     POSTGRES_URL: process.env.POSTGRES_URL,
+    UPSTASH_REDIS_REST_URL: process.env.KV_REST_API_URL,
+    UPSTASH_REDIS_REST_TOKEN: process.env.KV_REST_API_TOKEN,
     PINECONE_API_KEY: process.env.PINECONE_API_KEY,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     CLERK_SIGNING_SECRET: process.env.SIGNING_SECRET,
