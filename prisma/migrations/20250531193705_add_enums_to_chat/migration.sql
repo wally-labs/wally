@@ -55,7 +55,7 @@ SET "race" = CASE
   WHEN lower("race") = 'malay'     THEN 'MALAY'
   WHEN lower("race") = 'indian'    THEN 'INDIAN'
   WHEN lower("race") = 'eurasian'  THEN 'EURASIAN'
-  WHEN lower("race") = 'other'     THEN 'OTHER'
+  WHEN lower("race") = 'other'     THEN 'OTHERS'
   ELSE UPPER(REGEXP_REPLACE("race", '[^A-Z_0-9]', '_', 'gi'))
 END
 WHERE "race" IS NOT NULL;
@@ -66,7 +66,7 @@ SET "country" = CASE
   WHEN lower("country") = 'singapore' THEN 'SINGAPORE'
   WHEN lower("country") = 'malaysia'  THEN 'MALAYSIA'
   WHEN lower("country") = 'china'     THEN 'CHINA'
-  WHEN lower("country") = 'other'     THEN 'OTHER'
+  WHEN lower("country") = 'other'     THEN 'OTHERS'
   ELSE UPPER(REGEXP_REPLACE("country", '[^A-Z_0-9]', '_', 'gi'))
 END
 WHERE "country" IS NOT NULL;

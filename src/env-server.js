@@ -1,5 +1,4 @@
 import { createEnv } from "@t3-oss/env-nextjs";
-import { S } from "node_modules/@upstash/redis/zmscore-CjoCv9kz.mjs";
 import { z } from "zod";
 
 export const env = createEnv({
