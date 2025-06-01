@@ -128,8 +128,9 @@ Wally helps couples, friends, or colleagues engage in meaningful offline convers
 - [x] procedure to update chats's updatedAt (arrange chats by updatedAt, not createdAt)
 - [x] save message to db (including files, optional)
 - [x] procedure to add allMessages array to db, use current message route for correct message only
-- [ ] convert all restricted value fields to enums
-- [ ] update config.ts/index.ts and src/api/auth (not for demo, read up!)
+- [x] convert all restricted value fields to enums
+- [x] update tRPC backend to do type validation for enums, store values in state not enums
+- [ ] update config.ts/index.ts and src/api/auth
 - [ ] convert to personal providers for auth, before launch
 - [ ] rate limits to each user on number of api calls (per month/day..)
 - [ ] use httpbatchstreamlink to stream trpc calls

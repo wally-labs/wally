@@ -1,4 +1,3 @@
-import { SendMessage } from "~/app/_components/chat/send-message";
 import { HydrateClient } from "~/trpc/server";
 
 export default async function Home() {
@@ -9,7 +8,7 @@ export default async function Home() {
           Say Hello To Wally!
         </h1>
         <div className="w-[70%]">
-          <SendMessage />
+          {/* TODO: Replace with future components */}
         </div>
       </div>
     </HydrateClient>

@@ -59,13 +59,13 @@ export const chatRouter = createTRPCRouter({
         chatId: z.string(),
         chatHeader: z.string().optional(),
         name: z.string().optional(),
-        gender: z.string().optional(),
+        gender: z.nativeEnum(Gender).optional(),
         birthDate: z.string().date().optional(),
-        relationship: z.string().optional(),
+        relationship: z.nativeEnum(Relationship).optional(),
         heartLevel: z.number().int().optional(),
-        race: z.string().optional(),
-        country: z.string().optional(),
-        language: z.string().optional(),
+        race: z.nativeEnum(Race).optional(),
+        country: z.nativeEnum(Country).optional(),
+        language: z.nativeEnum(Language).optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {

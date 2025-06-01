@@ -1,3 +1,5 @@
+// TODO: redundant file, delete this file once incorporate gender pronounns into main file
+
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import openAi from "~/server/ai/config";
@@ -37,8 +39,6 @@ const pronouns: Record<string, Pronouns> = {
 };
 
 export const aiRouter = createTRPCRouter({
-  // incomplete sendMessage to openAI API route
-  // send message to openAI and wait for response
   streamChat: protectedProcedure
     .input(
       z.object({
@@ -53,9 +53,9 @@ export const aiRouter = createTRPCRouter({
         });
 
         const gender =
-          profile?.gender === "male"
+          profile?.gender === "MALE"
             ? pronouns.male
-            : profile?.gender === "female"
+            : profile?.gender === "FEMALE"
               ? pronouns.female
               : pronouns.nonBinary;
 

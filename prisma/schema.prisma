@@ -162,10 +162,10 @@ model Message {
 }
 
 model Attachment {
-    id           String  @id @default(cuid())
+    id           String   @id @default(cuid())
     messageId    String
     name         String?
-    contentType  String?
+    contentType  String?  // TODO: to be converted to enum as well (once all types are figured out)
     url          String
 
     message      Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
