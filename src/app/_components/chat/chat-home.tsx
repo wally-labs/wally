@@ -27,6 +27,7 @@ import { marked } from "marked";
 import { UploadDropzone } from "~/lib/uploadthing";
 import type { Attachment } from "ai";
 import Image from "next/image";
+import { enumToLabel } from "../constants/enums";
 
 interface Emotion {
   emotion: string;
@@ -77,6 +78,7 @@ export default function ChatHome() {
     refetchOnMount: false,
   });
 
+  // reroute to home page if chat is not existent/when user logs out..
   useEffect(() => {
     if (!isLoading && (isError || (!focusedChat && !queriedChatData))) {
       router.replace("/");
@@ -138,6 +140,9 @@ export default function ChatHome() {
   //   },
   // );
 
+  // if true skip the next error toast
+  const skipNextErrorToast = useRef(false);
+
   // useChat() hook sends a HTTP POST request to /api/chat endpoint
   const {
     messages,
@@ -157,11 +162,11 @@ export default function ChatHome() {
       // profileData: dataChat,
       profileData: chatData,
     }),
-    onFinish: (assistantMessage, { usage, finishReason }) => {
+    onFinish: (assistantMessage /* {, { usage, finishReason }} */) => {
       // for logging and debugging purposes
       // console.log("Finished streaming message:", assistantMessage);
-      console.log("Token usage:", usage);
-      console.log("Finish reason:", finishReason);
+      // console.log("Token usage:", usage);
+      // console.log("Finish reason:", finishReason);
 
       // try saving assistant message to db
       try {
@@ -178,13 +183,19 @@ export default function ChatHome() {
     },
     onResponse: (response) => {
       console.log("Received HTTP response from server:", response);
+      if (response.status == 401 || response.status == 429) {
+        skipNextErrorToast.current = true;
+        toast.error(response.json());
+      }
     },
     onError: (error) => {
-      toast.error("An error occurred, ", {
-        description: error.name,
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        action: { label: "Retry", onClick: () => reload() },
-      });
+      if (!skipNextErrorToast.current) {
+        toast.error("An error occurred: ", {
+          description: error.name,
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          action: { label: "Retry", onClick: () => reload() },
+        });
+      }
     },
   });
 
@@ -265,7 +276,7 @@ export default function ChatHome() {
             className="text-center text-xl font-semibold"
             style={{ color: profileColor }}
           >
-            {relationship}
+            {relationship && enumToLabel(relationship)}
           </h3>
         </div>
         <div>

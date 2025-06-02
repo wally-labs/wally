@@ -128,10 +128,11 @@ Wally helps couples, friends, or colleagues engage in meaningful offline convers
 - [x] procedure to update chats's updatedAt (arrange chats by updatedAt, not createdAt)
 - [x] save message to db (including files, optional)
 - [x] procedure to add allMessages array to db, use current message route for correct message only
-- [ ] convert all restricted value fields to enums
-- [ ] update config.ts/index.ts and src/api/auth (not for demo, read up!)
+- [x] convert all restricted value fields to enums
+- [x] update tRPC backend to do type validation for enums, store values in state not enums
+- [x] rate limits to each user on number of api calls (per day, maybe redis?)
 - [ ] convert to personal providers for auth, before launch
-- [ ] rate limits to each user on number of api calls (per month/day..)
+- [ ] update config.ts/index.ts and src/api/auth
 - [ ] use httpbatchstreamlink to stream trpc calls
 
 </details>
@@ -179,13 +180,21 @@ Wally helps couples, friends, or colleagues engage in meaningful offline convers
 
 ### OPTIMIZATION
 
+<details>
+<summary><strong>Error Management</strong></summary>
+
 - [ ] set up analytic + error management (w/ highlight or launchdarkly - in the future)
 
   - [ ] highlight.io integration in vercel (paid integration - w vercel pro)
   - [x] highlight.io integration in github
   - [x] add highlight identify user session
-  - [ ] add specific background traces for particular routes, eg: api call to openai, exclude http overhead
-  - [ ] learn to use highlight efficiently and automate issues for errors
+  - [x] add specific background traces for particular routes, eg: api call to openai, exclude http overhead
+  - [x] learn to use highlight efficiently and automate issues for errors
+
+</details>
+
+<details>
+<summary><strong>React Optimization</strong></summary>
 
 - [ ] optimize "use client" boundaries for less CSR
 - [ ] optimization testing (w/ react-scan)
@@ -196,6 +205,11 @@ Wally helps couples, friends, or colleagues engage in meaningful offline convers
   - [ ] minimize rerenders
   - [ ] use different types of queries
   - [ ] try using abort controller
+
+</details>
+
+<details>
+<summary><strong>State Management</strong></summary>
 
 - [x] integrate global state management - jotai (atomic state)
 
@@ -209,15 +223,26 @@ Wally helps couples, friends, or colleagues engage in meaningful offline convers
   - [x] update state on delete chat, so that sidebar is updated
   - [x] update state on create chat, so that ... (both done with tRPC invalidate)
 
+</details>
+
+<details>
+<summary><strong>Others</strong></summary>
+
 - [x] separate dbs for production and dev
 - [ ] check auth caching state
-- [ ] error logging (w/ axiom - paid)
 - [ ] routing pages (parallel routes)
 - [ ] language option (expand wally ai to be able to give answers in different languages)
 
+</details>
+
 ### POST-PRODUCTION
+
+<details>
+<summary><strong>Further Possible Optimizations</strong></summary>
 
 - [ ] payment processing + webhooks (w/ stripe)
 - [ ] update user schema (paid vs free user)
 - [ ] migrate from pinecone db to milvus once we start to scale
 - [ ] migrate from vercel hosting to ...
+
+</details>

@@ -1,5 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { Gender, Relationship, Race, Country, Language } from "@prisma/client";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
@@ -10,13 +11,13 @@ export const chatRouter = createTRPCRouter({
       z.object({
         chatHeader: z.string(),
         name: z.string(),
-        gender: z.string(),
+        gender: z.nativeEnum(Gender),
         birthDate: z.string().date().optional(),
-        relationship: z.string(),
+        relationship: z.nativeEnum(Relationship),
         heartLevel: z.number().int(),
-        race: z.string().optional(),
-        country: z.string().optional(),
-        language: z.string(),
+        race: z.nativeEnum(Race).optional(),
+        country: z.nativeEnum(Country).optional(),
+        language: z.nativeEnum(Language),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -58,13 +59,13 @@ export const chatRouter = createTRPCRouter({
         chatId: z.string(),
         chatHeader: z.string().optional(),
         name: z.string().optional(),
-        gender: z.string().optional(),
+        gender: z.nativeEnum(Gender).optional(),
         birthDate: z.string().date().optional(),
-        relationship: z.string().optional(),
+        relationship: z.nativeEnum(Relationship).optional(),
         heartLevel: z.number().int().optional(),
-        race: z.string().optional(),
-        country: z.string().optional(),
-        language: z.string().optional(),
+        race: z.nativeEnum(Race).optional(),
+        country: z.nativeEnum(Country).optional(),
+        language: z.nativeEnum(Language).optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {

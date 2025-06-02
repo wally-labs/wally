@@ -1,3 +1,5 @@
+import "server-only";
+
 import { OpenAI } from "openai";
 import { env } from "~/env-server";
 
