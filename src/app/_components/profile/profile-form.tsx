@@ -132,13 +132,6 @@ export function ProfileForm({
                           {opt.label}
                         </SelectItem>
                       ))}
-                      {/* <SelectItem value="male">Male</SelectItem>
-                      <SelectItem value="female">Female</SelectItem>
-                      <SelectItem value="non-binary">Non-Binary</SelectItem>
-                      <SelectItem value="others">Others</SelectItem>
-                      <SelectItem value="prefer-not-to-say">
-                        Prefer Not to Say
-                      </SelectItem> */}
                     </SelectContent>
                   </Select>
                   <FormDescription>Your partner&apos;s gender</FormDescription>
@@ -191,12 +184,6 @@ export function ProfileForm({
                           {opt.label}
                         </SelectItem>
                       ))}
-                      {/* <SelectItem value="family">Family</SelectItem>
-                      <SelectItem value="friendship">Friendship</SelectItem>
-                      <SelectItem value="partner">Romantic Partner</SelectItem>
-                      <SelectItem value="married">Married</SelectItem>
-                      <SelectItem value="colleague">Colleague</SelectItem>
-                      <SelectItem value="manager">Manager</SelectItem> */}
                     </SelectContent>
                   </Select>
                   <FormDescription>
@@ -260,11 +247,6 @@ export function ProfileForm({
                           {opt.label}
                         </SelectItem>
                       ))}
-                      {/* <SelectItem value="chinese">Chinese</SelectItem>
-                      <SelectItem value="malay">Malay</SelectItem>
-                      <SelectItem value="indian">Indian</SelectItem>
-                      <SelectItem value="eurasian">Eurasian</SelectItem>
-                      <SelectItem value="other">Other</SelectItem> */}
                     </SelectContent>
                   </Select>
                   <FormDescription>Your partner&apos;s race</FormDescription>
@@ -295,11 +277,6 @@ export function ProfileForm({
                           {opt.label}
                         </SelectItem>
                       ))}
-                      {/* <SelectItem value="singapore">Singapore</SelectItem>
-                      <SelectItem value="malaysia">Malaysia</SelectItem>
-                      <SelectItem value="china">China</SelectItem>
-                      <SelectItem value="india">India</SelectItem>
-                      <SelectItem value="other">Other</SelectItem> */}
                     </SelectContent>
                   </Select>
                   <FormDescription>Your partner&apos;s race</FormDescription>
@@ -308,7 +285,7 @@ export function ProfileForm({
               )}
             />
 
-            {/* Language Field - small issue combobox is different color :(( */}
+            {/* Language Field */}
             <FormField
               control={form.control}
               name="language"

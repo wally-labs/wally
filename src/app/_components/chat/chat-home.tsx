@@ -78,6 +78,7 @@ export default function ChatHome() {
     refetchOnMount: false,
   });
 
+  // reroute to home page if chat is not existent/when user logs out..
   useEffect(() => {
     if (!isLoading && (isError || (!focusedChat && !queriedChatData))) {
       router.replace("/");
@@ -161,11 +162,11 @@ export default function ChatHome() {
       // profileData: dataChat,
       profileData: chatData,
     }),
-    onFinish: (assistantMessage, { usage, finishReason }) => {
+    onFinish: (assistantMessage /* {, { usage, finishReason }} */) => {
       // for logging and debugging purposes
       // console.log("Finished streaming message:", assistantMessage);
-      console.log("Token usage:", usage);
-      console.log("Finish reason:", finishReason);
+      // console.log("Token usage:", usage);
+      // console.log("Finish reason:", finishReason);
 
       // try saving assistant message to db
       try {
@@ -188,7 +189,6 @@ export default function ChatHome() {
       }
     },
     onError: (error) => {
-      console.log("error enters here too");
       if (!skipNextErrorToast.current) {
         toast.error("An error occurred: ", {
           description: error.name,
