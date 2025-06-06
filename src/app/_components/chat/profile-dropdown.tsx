@@ -12,13 +12,13 @@ import UpdateProfile from "../profile/update-profile";
 export function ProfileDropdown() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger data-cy="profile-dropdown-trigger">
         <Settings />
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>Settings</DropdownMenuLabel>
+      <DropdownMenuContent data-cy="profile-dropdown-menu">
+        <DropdownMenuLabel data-cy="dropdown-menu-label">Settings</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem data-cy="update-profile-menu-item">
           <UpdateProfile />
         </DropdownMenuItem>
       </DropdownMenuContent>

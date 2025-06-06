@@ -11,14 +11,14 @@ import { Gem } from "lucide-react";
 export function ModelDropdown() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>Wally 0.5</DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>Models</DropdownMenuLabel>
+      <DropdownMenuTrigger data-cy="model-dropdown-trigger">Wally 0.5</DropdownMenuTrigger>
+      <DropdownMenuContent data-cy="model-dropdown-menu">
+        <DropdownMenuLabel data-cy="model-dropdown-label">Models</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Basic</DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem data-cy="model-dropdown-item-basic">Basic</DropdownMenuItem>
+        <DropdownMenuItem data-cy="model-dropdown-item-premium">
           Premium
-          <Gem />
+          <Gem className="lucide-gem" /> {/* Added class for easier selection of Gem icon if needed */}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -16,9 +16,15 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
       className={`flex items-start space-x-3 p-4 ${
         isUser ? "flex-row-reverse" : "flex-row"
       }`}
+      data-cy="chat-message-root"
     >
       {/* Replace with Wally Avatar, once ready */}
-      {!isUser && <UserCircle2 className="h-8 min-h-8 w-8 min-w-8" />}
+      {!isUser && (
+        <UserCircle2
+          className="lucide-user-circle-2 h-8 min-h-8 w-8 min-w-8" // Added specific lucide class for testing
+          data-cy="chat-message-avatar"
+        />
+      )}
       <div
         className={`rounded-lg p-3 text-gray-600 ${
           isUser
@@ -26,6 +32,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
             : "rounded-bl-none bg-[#fafafa]"
         }`}
         style={{ maxWidth: isUser ? "60%" : "auto" }}
+        data-cy="chat-message-bubble"
       >
         {children}
       </div>
