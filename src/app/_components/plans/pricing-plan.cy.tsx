@@ -11,40 +11,47 @@ describe("<PricingPlan />", () => {
       .should("contain.text", "Pricing");
   });
 
-  it("renders exactly two tiers with correct names and prices", () => {
-    cy.get("[data-cy=tier-headers]")
-      .should("have.length", 2)
-      .eq(0)
-      .should("contain.text", "Personal");
+  it("renders tiers with correct names and prices", () => {
+    const expectedTiers = [
+      { name: "Personal", price: "$29" },
+      { name: "Enterprise", price: "$199" },
+    ];
 
-    cy.get("[data-cy=tier-headers]")
-      .should("have.length", 2)
-      .eq(1)
-      .should("contain.text", "Enterprise");
+    cy.get("[data-cy=tier-headers]").should("have.length", expectedTiers.length);
 
-    cy.contains("span", "$29").should("exist");
-    cy.contains("span", "$199").should("exist");
+    expectedTiers.forEach((tier, index) => {
+      cy.get("[data-cy=tier-headers]")
+        .eq(index)
+        .should("contain.text", tier.name)
+        .closest('div') // Move to the parent container of the tier header
+        .parent() // Move to the overall tier card container
+        .find("span.text-5xl") // Find the price span within this tier
+        .should("contain.text", tier.price);
+    });
   });
 
   it("renders the correct number of features for each tier", () => {
+    // Personal tier
     cy.get("[data-cy=tier-lists]")
       .eq(0)
       .find("[data-cy=tier-list-items]")
       .should("have.length", 4);
 
+    // Enterprise tier
     cy.get("[data-cy=tier-lists]")
       .eq(1)
       .find("[data-cy=tier-list-items]")
       .should("have.length", 6);
   });
 
-  it('includes a "Get started today" link for each tier', () => {
+  it('includes a "Get started today" link for each tier with valid href', () => {
     cy.get("[data-cy=purchase-link]")
       .should("have.length", 2)
       .each(($link) => {
         cy.wrap($link)
           .should("be.visible")
           .and("have.attr", "href")
+          .and("not.be.empty")
           .and("match", /^#/);
       });
   });
