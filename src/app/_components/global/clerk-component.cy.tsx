@@ -1,6 +1,5 @@
-import ClerkComponent from './clerk-component';
-import { composeStories } from '@storybook/react'; // Assuming Storybook might be used or useful for mocking states
-import * as ClerkNextjs from '@clerk/nextjs';
+import ClerkComponent from "./clerk-component";
+import * as ClerkNextjs from "@clerk/nextjs";
 
 // Mock Clerk components and hooks
 // A more robust solution might involve a dedicated mock setup for Clerk
@@ -13,11 +12,11 @@ const MockSignInButton = ({ children }: { children: React.ReactNode }) => (
   <div data-cy="sign-in-button">{children}</div>
 );
 
-describe('<ClerkComponent />', () => {
+describe("<ClerkComponent />", () => {
   beforeEach(() => {
     // Stub the Clerk hooks and components
     // For `useUser`
-    cy.stub(ClerkNextjs, 'useUser').as('useUserStub');
+    cy.stub(ClerkNextjs, "useUser").as("useUserStub");
     // For SignedIn and SignedOut, we can mock their behavior by controlling `useUser`
     // or by directly stubbing them if they are simple enough.
     // A simple approach for SignedIn/SignedOut is to make them render children based on a mocked auth state.
@@ -26,75 +25,86 @@ describe('<ClerkComponent />', () => {
     // This is called in useEffects and might cause issues if not mocked
     cy.window().then((win) => {
       win.H = {
-        identify: cy.stub().as('highlightIdentifyStub'),
-        init: cy.stub().as('highlightInitStub') // if H.init is also used
+        identify: cy.stub().as("highlightIdentifyStub"),
+        init: cy.stub().as("highlightInitStub"), // if H.init is also used
       };
     });
   });
+});
 
-  context('when user is signed out', () => {
-    beforeEach(() => {
-      // @ts-expect-error - allow stubbing
-      cy.get('@useUserStub').returns({
-        isLoaded: true,
-        isSignedIn: false,
-        user: null,
-      });
+context("when user is signed out", () => {
+  beforeEach(() => {
+    cy.get("@useUserStub").returns({
+      isLoaded: true,
+      isSignedIn: false,
+      user: null,
+    } as const);
 
-      // Mock SignedIn to not render its children and SignedOut to render its children
-      cy.stub(ClerkNextjs, 'SignedIn').callsFake(({ children }) => null); // Does not render children
-      cy.stub(ClerkNextjs, 'SignedOut').callsFake(({ children }) => <>{children}</>); // Renders children
-      cy.stub(ClerkNextjs, 'SignInButton').callsFake(MockSignInButton as any);
+    // Mock SignedIn to not render its children and SignedOut to render its children
+    cy.stub(ClerkNextjs, "SignedIn").callsFake(({ children }) => null); // Does not render children
+    cy.stub(ClerkNextjs, "SignedOut").callsFake(({ children }) => (
+      <>{children}</>
+    )); // Renders children
+    cy.stub(ClerkNextjs, "SignInButton").callsFake(MockSignInButton as any);
 
-
-      cy.mount(<ClerkComponent />);
-    });
-
-    it('should display the Sign In button', () => {
-      cy.get('[data-cy=sign-in-button]').should('be.visible');
-      cy.get('[data-cy=sign-in-button]').should('contain.text', 'Sign In');
-      cy.get('[data-cy=user-button]').should('not.exist');
-    });
-
-    it('should call H.identify for anonymous user on mount', () => {
-      cy.get('@highlightIdentifyStub').should('have.been.calledWithMatch', /^anon=/);
-    });
+    cy.mount(<ClerkComponent />);
   });
 
-  context('when user is signed in', () => {
+  it("should display the Sign In button", () => {
+    cy.get("[data-cy=sign-in-button]").should("be.visible");
+    cy.get("[data-cy=sign-in-button]").should("contain.text", "Sign In");
+    cy.get("[data-cy=user-button]").should("not.exist");
+  });
+
+  it("should call H.identify for anonymous user on mount", () => {
+    cy.get("@highlightIdentifyStub").should(
+      "have.been.calledWithMatch",
+      /^anon=/,
+    );
+  });
+});
+
+context("when user is signed in", () => {
+  beforeEach(() => {
     beforeEach(() => {
-      // @ts-expect-error - allow stubbing
-      cy.get('@useUserStub').returns({
+      cy.get("@useUserStub").returns({
         isLoaded: true,
         isSignedIn: true,
         user: {
-          id: 'user_123',
-          firstName: 'Test',
-          lastName: 'User',
-          primaryEmailAddressId: 'email_123',
-          emailAddresses: [{ id: 'email_123', emailAddress: 'test@example.com' }],
+          id: "user_123",
+          firstName: "Test",
+          lastName: "User",
+          primaryEmailAddressId: "email_123",
+          emailAddresses: [
+            { id: "email_123", emailAddress: "test@example.com" },
+          ],
         },
-      });
-
+      } as const);
       // Mock SignedIn to render its children and SignedOut to not render its children
-      cy.stub(ClerkNextjs, 'SignedIn').callsFake(({ children }) => <>{children}</>); // Renders children
-      cy.stub(ClerkNextjs, 'SignedOut').callsFake(({ children }) => null); // Does not render children
-      cy.stub(ClerkNextjs, 'UserButton').callsFake(MockUserButton);
+      cy.stub(ClerkNextjs, "SignedIn").callsFake(({ children }) => (
+        <>{children}</>
+      )); // Renders children
+      cy.stub(ClerkNextjs, "SignedOut").callsFake(({ children }) => null); // Does not render children
+      cy.stub(ClerkNextjs, "UserButton").callsFake(MockUserButton);
 
       cy.mount(<ClerkComponent />);
     });
 
-    it('should display the UserButton', () => {
-      cy.get('[data-cy=user-button]').should('be.visible');
-      cy.get('[data-cy=sign-in-button]').should('not.exist');
+    it("should display the UserButton", () => {
+      cy.get("[data-cy=user-button]").should("be.visible");
+      cy.get("[data-cy=sign-in-button]").should("not.exist");
     });
 
-    it('should call H.identify with user details', () => {
-        cy.get('@highlightIdentifyStub').should('have.been.calledWith', 'user_123', {
-        highlightDisplayName: 'Test User',
-        highlightEmail: 'test@example.com',
-        hasUsedFeature: true,
-      });
+    it("should call H.identify with user details", () => {
+      cy.get("@highlightIdentifyStub").should(
+        "have.been.calledWith",
+        "user_123",
+        {
+          highlightDisplayName: "Test User",
+          highlightEmail: "test@example.com",
+          hasUsedFeature: true,
+        },
+      );
     });
   });
 

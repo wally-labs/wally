@@ -49,7 +49,11 @@ import {
   AlertDialogTitle,
 } from "~/components/ui/alert-dialog";
 
-export function AppSidebar({ children }: { children: React.ReactNode }) {
+export default function AppSidebar({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const state = useAuth();
   const apiUtils = api.useUtils();
   const [chatData, setChatData] = useAtom(chatDataAtom);
@@ -114,7 +118,8 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
         );
 
       setChatData(chatDataFromApi);
-    } else if (data?.length === 0) { // Clear chatData if API returns empty array
+    } else if (data?.length === 0) {
+      // Clear chatData if API returns empty array
       setChatData([]);
     }
   }, [data, setChatData]);
@@ -142,21 +147,33 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
         <SidebarGroup>
           <SidebarGroupLabel>Chats</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarGroupAction title="New Chat" data-cy="quick-new-chat-button">
+            <SidebarGroupAction
+              title="New Chat"
+              data-cy="quick-new-chat-button"
+            >
               <MessageCircle />
               <span className="sr-only">Start a New Chat!</span>
             </SidebarGroupAction>
             <SidebarMenu>
               {isLoading && (
-                <SidebarMenuItem key={"loading"} data-cy="sidebar-menu-skeleton">
+                <SidebarMenuItem
+                  key={"loading"}
+                  data-cy="sidebar-menu-skeleton"
+                >
                   <SidebarMenuSkeleton showIcon />
                 </SidebarMenuItem>
               )}
               {chatData.length > 0 &&
                 chatData.map((chat) => (
-                  <SidebarMenuItem key={chat.id} data-cy={`chat-list-item-${chat.id}`}>
+                  <SidebarMenuItem
+                    key={chat.id}
+                    data-cy={`chat-list-item-${chat.id}`}
+                  >
                     <SidebarMenuButton asChild>
-                      <Link href={`/chats/${chat.id}`} data-cy={`chat-link-${chat.id}`}>
+                      <Link
+                        href={`/chats/${chat.id}`}
+                        data-cy={`chat-link-${chat.id}`}
+                      >
                         <CircleUserRound />
                         <span>{chat.chatData.chatHeader}</span>
                       </Link>
@@ -168,7 +185,11 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
                         </SidebarMenuAction>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent side="right" align="start">
-                        <DropdownMenuItem data-cy={`edit-chat-menu-item-${chat.id}`}>Edit Profile</DropdownMenuItem>
+                        <DropdownMenuItem
+                          data-cy={`edit-chat-menu-item-${chat.id}`}
+                        >
+                          Edit Profile
+                        </DropdownMenuItem>
                         <DropdownMenuItem
                           data-cy={`delete-chat-menu-item-${chat.id}`}
                           onClick={() => {
@@ -183,7 +204,10 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
                 ))}
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href={state.isSignedIn ? "/create-chat" : "/plans"} data-cy="new-chat-link">
+                  <Link
+                    href={state.isSignedIn ? "/create-chat" : "/plans"}
+                    data-cy="new-chat-link"
+                  >
                     <Plus />
                     <span>New Chat</span>
                   </Link>
@@ -214,7 +238,9 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
             </AlertDialogHeader>
 
             <AlertDialogFooter>
-              <AlertDialogCancel data-cy="alert-dialog-cancel-button">Cancel</AlertDialogCancel>
+              <AlertDialogCancel data-cy="alert-dialog-cancel-button">
+                Cancel
+              </AlertDialogCancel>
               <AlertDialogAction
                 data-cy="alert-dialog-confirm-button"
                 className="bg-red-600 text-white hover:bg-red-700 focus:ring-red-500"

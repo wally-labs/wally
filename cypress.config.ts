@@ -14,10 +14,12 @@ export default defineConfig({
 
   component: {
     specPattern: "src/app/**/*.cy.{js,jsx,ts,tsx}",
-    supportFile: "cypress/support/component.{js,ts}",
+    supportFile: "cypress/support/component.{js,ts, tsx}",
+    indexHtmlFile: "cypress/support/component-index.html",
     devServer: {
       framework: "next",
       bundler: "webpack",
     },
+    // experimentalSingleTabRunMode: true,
   },
 });

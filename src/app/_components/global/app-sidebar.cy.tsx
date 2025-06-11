@@ -60,7 +60,6 @@ const TestWrapper: React.FC<{
 
   return (
     <JotaiProvider> {/* Wrap with Jotai Provider */}
-      {/* @ts-expect-error - Simplified mock for tRPC Provider */}
       <api.Provider client={trpcClient} queryClient={queryClient}>
         <QueryClientProvider client={queryClient}>
           {children}

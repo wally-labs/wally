@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
 // ***********************************************************
 // This example support/component.ts is processed and
 // loaded automatically before your test files.
@@ -16,59 +15,11 @@
 
 // Import commands.js using ES2015 syntax:
 import "./commands";
+import React from "react";
+import RootLayout from "src/app/layout";
 
-import { mount } from "cypress/react";
-
-// Augment the Cypress namespace to include type definitions for
-// your custom command.
-// Alternatively, can be defined in cypress/support/component.d.ts
-// with a <reference path="./component" /> at the top of your spec.
-
-Cypress.Commands.add("mount", mount);
-
-Cypress.Commands.add("getBySel", (selector, ...args) => {
-  return cy.get(`[data-test=${selector}]`, ...args);
+// wrap every component in next.js root layout
+Cypress.Commands.overwrite("mount", (mountFn, jsx, options) => {
+  const wrapped = React.createElement(RootLayout, null, jsx);
+  return mountFn(wrapped, options);
 });
-
-Cypress.Commands.add("getBySelLike", (selector, ...args) => {
-  return cy.get(`[data-test*=${selector}]`, ...args);
-});
-
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      /**
-       * Mount a React component.
-       */
-      mount: typeof mount;
-
-      /**
-       * Get element by [data-test="…"].
-       * @example cy.getBySel('submit-button')
-       */
-      getBySel(
-        selector: string,
-        options?: Partial<
-          Cypress.Loggable &
-            Cypress.Timeoutable &
-            Cypress.Withinable &
-            Cypress.Shadow
-        >,
-      ): Chainable<JQuery<HTMLElement>>;
-
-      /**
-       * Get element by [data-test*="…"].
-       * @example cy.getBySelLike('user-')
-       */
-      getBySelLike(
-        selector: string,
-        options?: Partial<
-          Cypress.Loggable &
-            Cypress.Timeoutable &
-            Cypress.Withinable &
-            Cypress.Shadow
-        >,
-      ): Chainable<JQuery<HTMLElement>>;
-    }
-  }
-}
