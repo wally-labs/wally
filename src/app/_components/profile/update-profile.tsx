@@ -16,14 +16,19 @@ import {
 
 import { Button } from "@components/ui/button";
 import { ScrollArea } from "~/components/ui/scroll-area";
-import { useEffect } from "react";
+import { useEffect, type ComponentType } from "react"; // Added ComponentType
 import { toast } from "sonner";
-import { ProfileForm } from "./profile-form";
+import { ProfileForm, type ProfileFormProps } from "./profile-form"; // Import real ProfileForm and its props type
 import { formSchema } from "../schema";
 import { useMemoChatData } from "../atoms";
 import { useAtomValue } from "jotai";
 
-export default function UpdateProfile() {
+interface UpdateProfileProps {
+  // Allow injecting a ProfileForm component for testing
+  ProfileFormComponent?: ComponentType<ProfileFormProps>;
+}
+
+export default function UpdateProfile({ ProfileFormComponent = ProfileForm }: UpdateProfileProps) {
   const apiUtils = api.useUtils();
 
   const { chats } = useParams();
@@ -34,7 +39,7 @@ export default function UpdateProfile() {
   const focusedChatData = useAtomValue(focusedChatAtom);
 
   // get profile data from server
-  const { data } = api.chat.getChat.useQuery(
+  const { data, isLoading: isQueryLoading, isError: isQueryError } = api.chat.getChat.useQuery(
     chatId ? { chatId: chatId } : skipToken,
     {
       refetchOnWindowFocus: false,
@@ -47,6 +52,7 @@ export default function UpdateProfile() {
     onSuccess: () => {
       toast.success("Profile updated successfully!");
       void apiUtils.chat.getAllChatHeaders.invalidate();
+      // Potentially close dialog here if Dialog state was managed locally
     },
     onError: () => {
       toast.error("Failed to update profile");
@@ -55,32 +61,37 @@ export default function UpdateProfile() {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    // Default values will be set by useEffect once data loads
   });
 
   useEffect(() => {
-    if (focusedChatData) {
-      form.reset({
-        name: focusedChatData.chatData.name,
-        gender: focusedChatData.chatData.gender,
-        birthDate: focusedChatData.chatData.birthDate,
-        relationship: focusedChatData.chatData.relationship,
-        heartLevel: focusedChatData.chatData.heartLevel,
-        race: focusedChatData.chatData.race,
-        country: focusedChatData.chatData.country,
-        language: focusedChatData.chatData.language,
-      });
+    let initialDataToSet;
+    if (focusedChatData?.chatData) {
+      initialDataToSet = focusedChatData.chatData;
+    } else if (data) {
+      initialDataToSet = {
+        ...data,
+        birthDate: data.birthDate ? new Date(data.birthDate).toISOString().split('T')[0] : "", // Format for input type="date"
+        // Ensure all fields from formSchema are present, defaulting if necessary
+        gender: data.gender ?? undefined,
+        relationship: data.relationship ?? undefined,
+        heartLevel: data.heartLevel ?? 1,
+        race: data.race ?? undefined,
+        country: data.country ?? undefined,
+        language: data.language ?? undefined,
+      };
     }
 
-    if (data) {
+    if (initialDataToSet) {
       form.reset({
-        name: data.name,
-        gender: data.gender,
-        birthDate: data.birthDate ? new Date(data.birthDate).toISOString() : "",
-        relationship: data.relationship,
-        heartLevel: data.heartLevel,
-        race: data.relationship,
-        country: data.country ?? undefined,
-        language: data.language,
+        name: initialDataToSet.name,
+        gender: initialDataToSet.gender,
+        birthDate: initialDataToSet.birthDate,
+        relationship: initialDataToSet.relationship,
+        heartLevel: initialDataToSet.heartLevel,
+        race: initialDataToSet.race,
+        country: initialDataToSet.country,
+        language: initialDataToSet.language,
       });
     }
   }, [focusedChatData, data, form]);
@@ -106,12 +117,15 @@ export default function UpdateProfile() {
     });
   };
 
+  // TODO: Handle query loading and error states more explicitly in the UI if needed
+  // For example, show a spinner while isQueryLoading, or an error message if isQueryError
+
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Edit Profile</Button>
+        <Button data-cy="update-profile-dialog-trigger" variant="outline">Edit Profile</Button>
       </DialogTrigger>
-      <DialogContent className="h-[70vh] w-[70vw]">
+      <DialogContent data-cy="update-profile-dialog-content" className="h-[70vh] w-[70vw]">
         <ScrollArea>
           <DialogHeader>
             <DialogTitle>Edit Profile</DialogTitle>
@@ -119,11 +133,18 @@ export default function UpdateProfile() {
               Update your profile information below!
             </DialogDescription>
           </DialogHeader>
-          <ProfileForm
-            form={form}
-            handleSubmit={onSubmit}
-            submitLabel="Update Profile"
-          />
+          {isQueryLoading && <div data-cy="update-profile-loading-query">Loading profile...</div>}
+          {isQueryError && <div data-cy="update-profile-error-query">Error loading profile.</div>}
+          {(!isQueryLoading && !isQueryError && (data || focusedChatData)) && ( // Only render form if not loading/error and data is available
+            <div data-cy="profile-form-wrapper">
+              <ProfileFormComponent
+                form={form}
+                handleSubmit={onSubmit}
+                submitLabel="Update Profile"
+                isPending={updateChatMutation.isPending}
+              />
+            </div>
+          )}
         </ScrollArea>
       </DialogContent>
     </Dialog>

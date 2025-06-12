@@ -69,17 +69,19 @@ type ProfileFormProps = {
   form: ReturnType<typeof useForm<z.infer<typeof formSchema>>>;
   handleSubmit: (values: z.infer<typeof formSchema>) => void;
   submitLabel: string;
+  isPending?: boolean; // Added for testing pending state
 };
 
 export function ProfileForm({
   form,
   handleSubmit,
   submitLabel,
+  isPending, // Added
 }: ProfileFormProps) {
   return (
-    <Card>
+    <Card data-cy="profile-form-card">
       <CardHeader>
-        <CardTitle className="text-xl text-amberTheme-darker">
+        <CardTitle className="text-xl text-amberTheme-darker" data-cy="profile-form-title">
           Tell Me About Them
         </CardTitle>
         <CardDescription>
@@ -91,6 +93,7 @@ export function ProfileForm({
       <CardContent>
         <Form {...form}>
           <form
+            data-cy="profile-form"
             onSubmit={form.handleSubmit(handleSubmit)}
             className="grid grid-cols-1 gap-6 sm:grid-cols-2"
           >
@@ -102,10 +105,10 @@ export function ProfileForm({
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Name" {...field} />
+                    <Input data-cy="name-input" placeholder="Name" {...field} />
                   </FormControl>
                   <FormDescription>Your partner&apos;s name</FormDescription>
-                  <FormMessage />
+                  <FormMessage data-cy="name-form-message" />
                 </FormItem>
               )}
             />
@@ -122,20 +125,20 @@ export function ProfileForm({
                     defaultValue={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger data-cy="gender-select-trigger">
                         <SelectValue placeholder="Select a gender" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent data-cy="gender-select-content">
                       {genderOptions.map((opt) => (
-                        <SelectItem key={opt.value} value={opt.value}>
+                        <SelectItem data-cy={`gender-select-item-${opt.value}`} key={opt.value} value={opt.value}>
                           {opt.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                   <FormDescription>Your partner&apos;s gender</FormDescription>
-                  <FormMessage />
+                  <FormMessage data-cy="gender-form-message" />
                 </FormItem>
               )}
             />
@@ -149,6 +152,7 @@ export function ProfileForm({
                   <FormLabel>Birth Date</FormLabel>
                   <FormControl>
                     <Input
+                      data-cy="birthdate-input"
                       type="date"
                       placeholder="your partner's birth date"
                       {...field}
@@ -157,7 +161,7 @@ export function ProfileForm({
                   <FormDescription>
                     Your partner&apos;s birth date
                   </FormDescription>
-                  <FormMessage />
+                  <FormMessage data-cy="birthdate-form-message" />
                 </FormItem>
               )}
             />
@@ -174,13 +178,13 @@ export function ProfileForm({
                     defaultValue={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger data-cy="relationship-select-trigger">
                         <SelectValue placeholder="Select a relationship type" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent data-cy="relationship-select-content">
                       {relationshipOptions.map((opt) => (
-                        <SelectItem key={opt.value} value={opt.value}>
+                        <SelectItem data-cy={`relationship-select-item-${opt.value}`} key={opt.value} value={opt.value}>
                           {opt.label}
                         </SelectItem>
                       ))}
@@ -189,7 +193,7 @@ export function ProfileForm({
                   <FormDescription>
                     Your partner&apos;s relationship with you
                   </FormDescription>
-                  <FormMessage />
+                  <FormMessage data-cy="relationship-form-message" />
                 </FormItem>
               )}
             />
@@ -203,15 +207,16 @@ export function ProfileForm({
                   <FormLabel>Heart Level</FormLabel>
                   <Select
                     onValueChange={(value) => field.onChange(Number(value))}
+                    defaultValue={field.value?.toString()} // Ensure defaultValue is string for Select
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger data-cy="heartlevel-select-trigger">
                         <SelectValue placeholder="Select a heart level" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent data-cy="heartlevel-select-content">
                       {[1, 2, 3, 4, 5].map((i) => (
-                        <SelectItem key={i} value={i.toString()}>
+                        <SelectItem data-cy={`heartlevel-select-item-${i}`} key={i} value={i.toString()}>
                           {i}
                         </SelectItem>
                       ))}
@@ -220,7 +225,7 @@ export function ProfileForm({
                   <FormDescription>
                     Your partner&apos;s heart level
                   </FormDescription>
-                  <FormMessage />
+                  <FormMessage data-cy="heartlevel-form-message" />
                 </FormItem>
               )}
             />
@@ -237,20 +242,20 @@ export function ProfileForm({
                     defaultValue={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger data-cy="race-select-trigger">
                         <SelectValue placeholder="Select a race" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent data-cy="race-select-content">
                       {raceOptions.map((opt) => (
-                        <SelectItem key={opt.value} value={opt.value}>
+                        <SelectItem data-cy={`race-select-item-${opt.value}`} key={opt.value} value={opt.value}>
                           {opt.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                   <FormDescription>Your partner&apos;s race</FormDescription>
-                  <FormMessage />
+                  <FormMessage data-cy="race-form-message" />
                 </FormItem>
               )}
             />
@@ -267,20 +272,20 @@ export function ProfileForm({
                     defaultValue={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger data-cy="country-select-trigger">
                         <SelectValue placeholder="Select a country" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent data-cy="country-select-content">
                       {countryOptions.map((opt) => (
-                        <SelectItem key={opt.value} value={opt.value}>
+                        <SelectItem data-cy={`country-select-item-${opt.value}`} key={opt.value} value={opt.value}>
                           {opt.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
-                  <FormDescription>Your partner&apos;s race</FormDescription>
-                  <FormMessage />
+                  <FormDescription>Your partner&apos;s race</FormDescription> {/* TODO: Typo in original, should be country? */}
+                  <FormMessage data-cy="country-form-message" />
                 </FormItem>
               )}
             />
@@ -296,6 +301,7 @@ export function ProfileForm({
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
+                          data-cy="language-combobox-trigger"
                           variant="outline"
                           role="combobox"
                           className="w-full justify-between rounded-md border px-3 py-2 text-left font-normal"
@@ -309,17 +315,19 @@ export function ProfileForm({
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className="w-[200px] p-0">
+                    <PopoverContent data-cy="language-popover-content" className="w-[200px] p-0">
                       <Command>
                         <CommandInput
+                          data-cy="language-search-input"
                           placeholder="Search language..."
                           className="h-9"
                         />
-                        <CommandList>
+                        <CommandList data-cy="language-command-list">
                           <CommandEmpty>Language not available.</CommandEmpty>
                           <CommandGroup>
                             {languageOptions.map((opt) => (
                               <CommandItem
+                                data-cy={`language-command-item-${opt.value}`}
                                 value={opt.value}
                                 key={opt.value}
                                 onSelect={() => {
@@ -345,13 +353,13 @@ export function ProfileForm({
                   <FormDescription>
                     Your partner&apos;s native language
                   </FormDescription>
-                  <FormMessage />
+                  <FormMessage data-cy="language-form-message" />
                 </FormItem>
               )}
             />
             <div className="flex justify-end sm:col-start-2">
-              <Button type="submit" variant="main" className="w-1/2">
-                {submitLabel}
+              <Button data-cy="profile-form-submit-button" type="submit" variant="main" className="w-1/2" disabled={isPending || form.formState.isSubmitting}>
+                {isPending ? "Saving..." : submitLabel}
               </Button>
             </div>
           </form>

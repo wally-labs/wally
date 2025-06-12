@@ -8,10 +8,16 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 
-import { ProfileForm } from "./profile-form";
+import { ProfileForm, type ProfileFormProps } from "./profile-form"; // Import real ProfileForm and its props type
 import { formSchema } from "../schema";
+import React from "react"; // Import React for type definition
 
-export default function CreateProfile() {
+interface CreateProfileProps {
+  // Allow injecting a ProfileForm component for testing
+  ProfileFormComponent?: React.ComponentType<ProfileFormProps>;
+}
+
+export default function CreateProfile({ ProfileFormComponent = ProfileForm }: CreateProfileProps) {
   const router = useRouter();
   const apiUtils = api.useUtils();
 
@@ -55,11 +61,12 @@ export default function CreateProfile() {
   }
 
   return (
-    <div className="mx-auto mt-16 max-w-3xl p-4">
-      <ProfileForm
+    <div className="mx-auto mt-16 max-w-3xl p-4" data-cy="create-profile-root">
+      <ProfileFormComponent
         form={form}
         handleSubmit={onSubmit}
         submitLabel="Create Profile"
+        isPending={createChatMutation.isPending}
       />
     </div>
   );

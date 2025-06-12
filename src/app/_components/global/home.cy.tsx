@@ -47,8 +47,7 @@ describe('<Home />', () => {
             <TestChildren />
         </Home>
     );
-    // Add a root data-cy to Home component for this assertion if desired
-    // cy.get('[data-cy="home-container"]').should('be.visible');
+    cy.get('[data-cy="home-root"]').should('be.visible');
   });
 
   describe('when sidebar state is "expanded"', () => {

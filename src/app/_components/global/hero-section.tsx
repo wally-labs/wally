@@ -2,7 +2,7 @@ import { ModelDropdown } from "./model-dropdown";
 import { SidebarTrigger } from "@components/ui/sidebar";
 import ClerkComponent from "./clerk-component";
 
-export default function HeroSection({
+export function HeroSection({
   children,
   state,
 }: Readonly<{ children: React.ReactNode; state: string }>) {
@@ -16,11 +16,7 @@ export default function HeroSection({
       <div
         className={`fixed top-0 ${headerStyle} z-10 flex items-center justify-between space-x-4 bg-white p-4 shadow transition-all duration-300`}
         data-cy="hero-section-header-bar"
-        style={
-          state === "expanded"
-            ? { left: "256px", width: "calc(100vw - 256px)" }
-            : { left: "0px", width: "100%" }
-        }
+        style={state === "expanded" ? { left: "256px", width: "calc(100vw - 256px)" } : { left: "0px", width: "100%" }}
       >
         <div className="flex items-center space-x-4">
           {state === "collapsed" && (
@@ -36,9 +32,7 @@ export default function HeroSection({
           <ClerkComponent />
         </div>
       </div>
-      <div className="mt-4" data-cy="hero-section-children-container">
-        {children}
-      </div>
+      <div className="mt-4" data-cy="hero-section-children-container">{children}</div>
     </main>
   );
 }

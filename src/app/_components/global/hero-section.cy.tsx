@@ -70,10 +70,8 @@ describe('<HeroSection />', () => {
     cy.mount(<HeroSection state="collapsed"><TestChildren /></HeroSection>);
     cy.get('[data-cy="hero-section-header-bar"]')
       .should('have.css', 'left', '0px') // Assuming '0px' is the computed value for 'left-0'
-      .and('have.css', 'width'); // We can check width, but it might be tricky with 'w-full'
-      // For 'w-full', the exact pixel value depends on the viewport.
-      // A more robust check might be for the class itself or a snapshot test.
-      // .and('satisfy', ($el) => $el.width() === Cypress.config('viewportWidth'));
+      .and('have.attr', 'style')
+      .should('contain', 'width: 100%'); // Check inline style for width: 100%
   });
 
   it('applies correct styles when state is "expanded" (not collapsed)', () => {

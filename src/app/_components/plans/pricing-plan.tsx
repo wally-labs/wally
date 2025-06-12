@@ -7,6 +7,7 @@ const tiers: Tier[] = [
     id: "tier-personal",
     href: "#",
     priceMonthly: "$29",
+    priceYearly: "$290", // Assuming a yearly price for completeness if feature were added
     description:
       "The perfect plan if you're just getting started with our product.",
     features: [
@@ -22,6 +23,7 @@ const tiers: Tier[] = [
     id: "tier-enterprise",
     href: "#",
     priceMonthly: "$199",
+    priceYearly: "$1990", // Assuming a yearly price for completeness if feature were added
     description: "Dedicated support and infrastructure for your company.",
     features: [
       "Unlimited profiles",
@@ -40,6 +42,7 @@ interface Tier {
   id: string;
   href: string;
   priceMonthly: string;
+  priceYearly: string; // Assuming a yearly price for completeness if feature were added
   description: string;
   features: string[];
   featured: boolean;
@@ -95,6 +98,7 @@ export default function PricingPlan() {
                   tier.featured ? "text-white" : "text-gray-900",
                   "text-5xl font-semibold tracking-tight",
                 )}
+                data-cy="tier-price"
               >
                 {tier.priceMonthly}
               </span>

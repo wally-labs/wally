@@ -47,7 +47,6 @@ yarn-error.log*
 
 # cypress artifacts
 cypress/artifacts
-cypress/downloads
 
 # clerk users test
 clerk_users.json

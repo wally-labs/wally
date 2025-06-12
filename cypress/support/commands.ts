@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
 /// <reference types="cypress" />
 // ***********************************************
 // This example commands.ts shows you how to
@@ -29,56 +28,10 @@
 // declare global {
 //   namespace Cypress {
 //     interface Chainable {
-//       login(email: string, password: string): Chainable<void>;
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>;
-//       dismiss(
-//         subject: string,
-//         options?: Partial<TypeOptions>,
-//       ): Chainable<Element>;
-//       visit(
-//         originalFn: CommandOriginalFn,
-//         url: string,
-//         options: Partial<VisitOptions>,
-//       ): Chainable<Element>;
+//       login(email: string, password: string): Chainable<void>
+//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
+//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
+//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
 //     }
 //   }
 // }
-
-import { mount } from "cypress/react";
-
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      // add your own typing here
-      mount: typeof mount;
-      getBySel(
-        selector: string,
-        options?: Partial<
-          Cypress.Loggable &
-            Cypress.Timeoutable &
-            Cypress.Withinable &
-            Cypress.Shadow
-        >,
-      ): Chainable<JQuery<HTMLElement>>;
-      getBySelLike(
-        selector: string,
-        options?: Partial<
-          Cypress.Loggable &
-            Cypress.Timeoutable &
-            Cypress.Withinable &
-            Cypress.Shadow
-        >,
-      ): Chainable<JQuery<HTMLElement>>;
-    }
-  }
-}
-
-Cypress.Commands.add("mount", mount);
-
-Cypress.Commands.add("getBySel", (selector, ...args) => {
-  return cy.get(`[data-test=${selector}]`, ...args);
-});
-
-Cypress.Commands.add("getBySelLike", (selector, ...args) => {
-  return cy.get(`[data-test*=${selector}]`, ...args);
-});

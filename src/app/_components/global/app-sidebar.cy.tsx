@@ -60,6 +60,7 @@ const TestWrapper: React.FC<{
 
   return (
     <JotaiProvider> {/* Wrap with Jotai Provider */}
+      {/* @ts-expect-error - Simplified mock for tRPC Provider */}
       <api.Provider client={trpcClient} queryClient={queryClient}>
         <QueryClientProvider client={queryClient}>
           {children}
@@ -141,13 +142,16 @@ describe('<AppSidebar />', () => {
     cy.get('[data-cy="sidebar-menu-skeleton"]').should('be.visible');
   });
 
-  const mockChats = [
-    { id: 'chat1', chatData: { chatHeader: 'Chat with Alice' }, updatedAt: new Date().toISOString(), birthDate: new Date().toISOString(), race: 'Human', country: 'USA' },
-    { id: 'chat2', chatData: { chatHeader: 'Conversation with Bob' }, updatedAt: new Date().toISOString(), birthDate: new Date().toISOString(), race: 'Elf', country: 'Canada'  },
+  // This mock data should directly reflect the structure returned by api.chat.getAllChatHeaders.useQuery
+  // The component's useEffect expects each item to have: id, name, updatedAt, birthDate, race, country, etc.
+  const mockApiChatHeadersData = [
+    { id: 'chat1', name: 'Chat with Alice', updatedAt: new Date().toISOString(), birthDate: new Date().toISOString(), race: 'Human', country: 'USA', heartLevel: 3, relationship: 'FRIENDLY', model: 'gpt-4', provider: 'openai', providerId: '1' },
+    { id: 'chat2', name: 'Conversation with Bob', updatedAt: new Date().toISOString(), birthDate: new Date().toISOString(), race: 'Elf', country: 'Canada', heartLevel: 4, relationship: 'ROMANTIC', model: 'claude-2', provider: 'anthropic', providerId: '2' },
   ];
 
   it('renders list of chats when data is available', () => {
-    const mockTrpc = createMockTrpcContext(mockChats.map(c => ({...c, name: c.chatData.chatHeader })));
+    // Pass the data directly as the component expects it (name at the root of each item)
+    const mockTrpc = createMockTrpcContext(mockApiChatHeadersData);
     cy.mount(
       <TestWrapper mockTrpc={mockTrpc}>
         <AppSidebar><div>Children</div></AppSidebar>
@@ -158,7 +162,7 @@ describe('<AppSidebar />', () => {
   });
 
   it('opens chat delete confirmation dialog when delete is clicked', () => {
-    const mockTrpc = createMockTrpcContext(mockChats.map(c => ({...c, name: c.chatData.chatHeader })));
+    const mockTrpc = createMockTrpcContext(mockApiChatHeadersData);
     cy.mount(
       <TestWrapper mockTrpc={mockTrpc}>
         <AppSidebar><div>Children</div></AppSidebar>
@@ -171,7 +175,7 @@ describe('<AppSidebar />', () => {
 
   it('calls delete mutation when deletion is confirmed', () => {
     const deleteChatStub = cy.stub().as('deleteChatMutate');
-    const mockTrpc = createMockTrpcContext(mockChats.map(c => ({...c, name: c.chatData.chatHeader })), false, deleteChatStub);
+    const mockTrpc = createMockTrpcContext(mockApiChatHeadersData, false, deleteChatStub);
 
     cy.mount(
       <TestWrapper mockTrpc={mockTrpc}>

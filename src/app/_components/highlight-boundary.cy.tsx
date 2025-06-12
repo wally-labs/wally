@@ -56,9 +56,8 @@ describe('<HighlightErrorBoundary />', () => {
     // without knowing its internal structure or if it provides test selectors.
     // This test will primarily focus on the fact that the app doesn't crash and the error is caught.
 
-    // Suppress console errors for this specific test as an error is expected
-    console.error = cy.stub().as('consoleError');
-
+    // console.error is already stubbed as '@consoleError' in beforeEach via cy.on('window:before:load').
+    // We expect React to log to console.error when an error is caught by an error boundary.
     cy.mount(
       <HighlightErrorBoundary>
         <ProblemChild shouldThrow={true} />
@@ -69,9 +68,9 @@ describe('<HighlightErrorBoundary />', () => {
     // The ProblemChild content should NOT be visible if the boundary replaced it.
     cy.get('[data-cy="problem-child-content"]').should('not.exist');
 
-    // We can check if console.error was called by React, which it does when an error boundary catches an error.
-    // The Highlight.io SDK might also log this error.
-    // cy.get('@consoleError').should('have.been.called'); // React calls console.error
+    // We can check if console.error was called by React (and potentially Highlight.io SDK).
+    // This assertion confirms that the error was processed.
+    cy.get('@consoleError').should('have.been.called');
 
     // If Highlight.io's ErrorBoundary renders a known dialog or fallback with a selector, assert its presence.
     // For example, if it had a <div role="dialog"> or specific text:
