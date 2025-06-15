@@ -81,7 +81,7 @@ async function sendMessageHandler(req: Request) {
 
   const model: LanguageModelV1 = openai(
     // "gpt-4o-mini-2024-07-18",
-    "ft:gpt-4o-mini-2024-07-18:personal:both-lang:BiUl2Vg6", // Training Run #1
+    "ft:gpt-4o-mini-2024-07-18:personal:both-lang:BiUl2Vg6", // training run #1
   );
 
   const {
