@@ -17,7 +17,9 @@ interface CreateProfileProps {
   ProfileFormComponent?: React.ComponentType<ProfileFormProps>;
 }
 
-export default function CreateProfile({ ProfileFormComponent = ProfileForm }: CreateProfileProps) {
+export default function CreateProfile({
+  ProfileFormComponent = ProfileForm,
+}: CreateProfileProps) {
   const router = useRouter();
   const apiUtils = api.useUtils();
 
@@ -25,13 +27,13 @@ export default function CreateProfile({ ProfileFormComponent = ProfileForm }: Cr
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      gender: "",
+      gender: undefined,
       birthDate: "",
-      relationship: "",
+      relationship: undefined,
       heartLevel: 1,
-      race: "",
-      country: "",
-      language: "",
+      race: undefined,
+      country: undefined,
+      language: undefined,
     },
   });
 

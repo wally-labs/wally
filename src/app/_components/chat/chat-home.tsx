@@ -258,7 +258,10 @@ export default function ChatHome() {
 
   return (
     // DIVIDE into components once ui is decided -> components take in heart level as input and return ui accordingly
-    <div data-cy="chat-home-root" className="flex min-h-[80vh] min-w-[65vw] flex-col items-center justify-between gap-10 bg-gradient-to-b from-[white] to-[#f7faff] py-12 text-black">
+    <div
+      data-cy="chat-home-root"
+      className="flex min-h-[80vh] min-w-[65vw] flex-col items-center justify-between gap-10 bg-gradient-to-b from-[white] to-[#f7faff] py-12 text-black"
+    >
       <div className="flex h-[10%] w-[80%] items-center justify-between space-x-2">
         <div className="flex" data-cy="hearts-container">
           {Array.from({ length: redHeartLevel }).map((_, i) => (
@@ -269,7 +272,11 @@ export default function ChatHome() {
           ))}
         </div>
         <div>
-          <h2 data-cy="profile-name" className="text-3xl font-bold" style={{ color: profileColor }}>
+          <h2
+            data-cy="profile-name"
+            className="text-3xl font-bold"
+            style={{ color: profileColor }}
+          >
             {name} {profileEmoji}
           </h2>
           <h3
@@ -284,7 +291,10 @@ export default function ChatHome() {
           <UpdateProfile />
         </div>
       </div>
-      <ScrollArea data-cy="messages-scroll-area" className="mx-auto flex h-[500px] w-[65vw] min-w-[65vw] flex-col space-y-2 overflow-y-auto rounded-md border">
+      <ScrollArea
+        data-cy="messages-scroll-area"
+        className="mx-auto flex h-[500px] w-[65vw] min-w-[65vw] flex-col space-y-2 overflow-y-auto rounded-md border"
+      >
         {/* map each message in messages[] to a <ChatMessage> Component */}
         {messages.map((message, mi) => (
           <ChatMessage key={mi} isUser={message.role === "user"}>
@@ -301,7 +311,7 @@ export default function ChatHome() {
                 />
               ))}
             <div
-              key={`html-${mi}`} // Ensure unique key if mi is also used for ChatMessage
+              key={mi}
               className="prose max-w-full whitespace-pre-wrap"
               dangerouslySetInnerHTML={{
                 __html: marked(message.content ?? ""),
@@ -313,7 +323,10 @@ export default function ChatHome() {
         ))}
         {/* {status == "streaming" && <ChatMessage>...</ChatMessage>} */}
       </ScrollArea>
-      <div className="mx-auto flex w-[65vw] flex-col gap-0" data-cy="message-input-container">
+      <div
+        className="mx-auto flex w-[65vw] flex-col gap-0"
+        data-cy="message-input-container"
+      >
         <UploadDropzone
           data-cy="upload-dropzone"
           className="relative m-0 max-h-[30px] w-full overflow-visible rounded-b-none border-b-0 bg-gray-100/50 p-0 ut-allowed-content:hidden ut-label:text-amberTheme ut-uploading:ut-label:text-amberTheme-darker"
@@ -349,7 +362,7 @@ export default function ChatHome() {
             color={["#A07CFE", "#FE8FB5", "#FFBE7B"]}
           >
             <textarea
-              id="newMessage" // Keep id for label association
+              id="newMessage"
               data-cy="message-input"
               className="w-full resize-none border-none bg-inherit p-4 focus:outline-none sm:text-sm"
               rows={1}
@@ -357,7 +370,10 @@ export default function ChatHome() {
               value={input}
               onChange={handleInputChange}
             ></textarea>
-            <div className="flex items-center gap-2 p-4" data-cy="message-actions-container">
+            <div
+              className="flex items-center gap-2 p-4"
+              data-cy="message-actions-container"
+            >
               {(status === "submitted" || status === "streaming") && (
                 <Button data-cy="stop-button" onClick={stop} variant="main">
                   <StopCircle />
@@ -378,8 +394,15 @@ export default function ChatHome() {
                     }}
                   /> */}
                   <DropdownMenu>
-                    <DropdownMenuTrigger asChild data-cy="emotion-dropdown-trigger">
-                      <Button data-cy="send-button" variant="main" className="text-md h-11">
+                    <DropdownMenuTrigger
+                      asChild
+                      data-cy="emotion-dropdown-trigger"
+                    >
+                      <Button
+                        data-cy="send-button"
+                        variant="main"
+                        className="text-md h-11"
+                      >
                         Send
                       </Button>
                     </DropdownMenuTrigger>

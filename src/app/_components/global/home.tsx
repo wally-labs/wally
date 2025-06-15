@@ -12,26 +12,16 @@ export default function Home({
   const { state } = useSidebar();
 
   return (
-    <div data-cy="home-root">
-      <div data-cy="app-sidebar-wrapper">
-        <AppSidebar>
-          <div data-cy="app-sidebar-children-wrapper">
-            {state === "expanded" && (
-              <>
-                <div data-cy="sidebar-trigger-in-home">
-                  <SidebarTrigger />
-                </div>
-                <div data-cy="search-icon-in-home">
-                  <FontAwesomeIcon icon={faSearch} />
-                </div>
-              </>
-            )}
-          </div>
-        </AppSidebar>
-      </div>
-      <div data-cy="hero-section-wrapper" data-hero-state={state}>
-        <HeroSection state={state}>{children}</HeroSection>
-      </div>
-    </div>
+    <>
+      <AppSidebar data-cy="app-sidebar">
+        {state === "expanded" && (
+          <>
+            <SidebarTrigger />
+            <FontAwesomeIcon icon={faSearch} />
+          </>
+        )}
+      </AppSidebar>
+      <HeroSection state={state}>{children}</HeroSection>
+    </>
   );
 }

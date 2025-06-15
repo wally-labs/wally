@@ -65,23 +65,26 @@ export const languages = [
   { label: "Malay", value: "ms" },
 ] as const;
 
-type ProfileFormProps = {
+export type ProfileFormProps = {
   form: ReturnType<typeof useForm<z.infer<typeof formSchema>>>;
   handleSubmit: (values: z.infer<typeof formSchema>) => void;
   submitLabel: string;
-  isPending?: boolean; // Added for testing pending state
+  isPending?: boolean; // for testing pending state
 };
 
 export function ProfileForm({
   form,
   handleSubmit,
   submitLabel,
-  isPending, // Added
+  isPending,
 }: ProfileFormProps) {
   return (
     <Card data-cy="profile-form-card">
       <CardHeader>
-        <CardTitle className="text-xl text-amberTheme-darker" data-cy="profile-form-title">
+        <CardTitle
+          className="text-xl text-amberTheme-darker"
+          data-cy="profile-form-title"
+        >
           Tell Me About Them
         </CardTitle>
         <CardDescription>
@@ -131,7 +134,11 @@ export function ProfileForm({
                     </FormControl>
                     <SelectContent data-cy="gender-select-content">
                       {genderOptions.map((opt) => (
-                        <SelectItem data-cy={`gender-select-item-${opt.value}`} key={opt.value} value={opt.value}>
+                        <SelectItem
+                          data-cy={`gender-select-item-${opt.value}`}
+                          key={opt.value}
+                          value={opt.value}
+                        >
                           {opt.label}
                         </SelectItem>
                       ))}
@@ -184,7 +191,11 @@ export function ProfileForm({
                     </FormControl>
                     <SelectContent data-cy="relationship-select-content">
                       {relationshipOptions.map((opt) => (
-                        <SelectItem data-cy={`relationship-select-item-${opt.value}`} key={opt.value} value={opt.value}>
+                        <SelectItem
+                          data-cy={`relationship-select-item-${opt.value}`}
+                          key={opt.value}
+                          value={opt.value}
+                        >
                           {opt.label}
                         </SelectItem>
                       ))}
@@ -207,7 +218,7 @@ export function ProfileForm({
                   <FormLabel>Heart Level</FormLabel>
                   <Select
                     onValueChange={(value) => field.onChange(Number(value))}
-                    defaultValue={field.value?.toString()} // Ensure defaultValue is string for Select
+                    // defaultValue={field.value?.toString()} // Ensure defaultValue is string for Select
                   >
                     <FormControl>
                       <SelectTrigger data-cy="heartlevel-select-trigger">
@@ -216,7 +227,11 @@ export function ProfileForm({
                     </FormControl>
                     <SelectContent data-cy="heartlevel-select-content">
                       {[1, 2, 3, 4, 5].map((i) => (
-                        <SelectItem data-cy={`heartlevel-select-item-${i}`} key={i} value={i.toString()}>
+                        <SelectItem
+                          data-cy={`heartlevel-select-item-${i}`}
+                          key={i}
+                          value={i.toString()}
+                        >
                           {i}
                         </SelectItem>
                       ))}
@@ -248,7 +263,11 @@ export function ProfileForm({
                     </FormControl>
                     <SelectContent data-cy="race-select-content">
                       {raceOptions.map((opt) => (
-                        <SelectItem data-cy={`race-select-item-${opt.value}`} key={opt.value} value={opt.value}>
+                        <SelectItem
+                          data-cy={`race-select-item-${opt.value}`}
+                          key={opt.value}
+                          value={opt.value}
+                        >
                           {opt.label}
                         </SelectItem>
                       ))}
@@ -278,13 +297,17 @@ export function ProfileForm({
                     </FormControl>
                     <SelectContent data-cy="country-select-content">
                       {countryOptions.map((opt) => (
-                        <SelectItem data-cy={`country-select-item-${opt.value}`} key={opt.value} value={opt.value}>
+                        <SelectItem
+                          data-cy={`country-select-item-${opt.value}`}
+                          key={opt.value}
+                          value={opt.value}
+                        >
                           {opt.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
-                  <FormDescription>Your partner&apos;s race</FormDescription> {/* TODO: Typo in original, should be country? */}
+                  <FormDescription>Your partner&apos;s country</FormDescription>
                   <FormMessage data-cy="country-form-message" />
                 </FormItem>
               )}
@@ -315,7 +338,10 @@ export function ProfileForm({
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent data-cy="language-popover-content" className="w-[200px] p-0">
+                    <PopoverContent
+                      data-cy="language-popover-content"
+                      className="w-[200px] p-0"
+                    >
                       <Command>
                         <CommandInput
                           data-cy="language-search-input"
@@ -358,7 +384,13 @@ export function ProfileForm({
               )}
             />
             <div className="flex justify-end sm:col-start-2">
-              <Button data-cy="profile-form-submit-button" type="submit" variant="main" className="w-1/2" disabled={isPending || form.formState.isSubmitting}>
+              <Button
+                data-cy="profile-form-submit-button"
+                type="submit"
+                variant="main"
+                className="w-1/2"
+                disabled={isPending ?? form.formState.isSubmitting}
+              >
                 {isPending ? "Saving..." : submitLabel}
               </Button>
             </div>

@@ -16,7 +16,9 @@ export function ProfileDropdown() {
         <Settings />
       </DropdownMenuTrigger>
       <DropdownMenuContent data-cy="profile-dropdown-menu">
-        <DropdownMenuLabel data-cy="dropdown-menu-label">Settings</DropdownMenuLabel>
+        <DropdownMenuLabel data-cy="dropdown-menu-label">
+          Settings
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem data-cy="update-profile-menu-item">
           <UpdateProfile />

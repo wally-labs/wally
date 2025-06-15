@@ -21,7 +21,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
       {/* Replace with Wally Avatar, once ready */}
       {!isUser && (
         <UserCircle2
-          className="lucide-user-circle-2 h-8 min-h-8 w-8 min-w-8" // Added specific lucide class for testing
+          className="h-8 min-h-8 w-8 min-w-8"
           data-cy="chat-message-avatar"
         />
       )}
