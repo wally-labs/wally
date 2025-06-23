@@ -20,11 +20,9 @@
     "preview": "next build && next start",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "cypress:open": "cypress open",
-    "e2e": "start-server-and-test dev http://localhost:3000 \"cypress run --e2e\"",
-    "e2e:headless": "start-server-and-test dev http://localhost:3000 \"cypress run --e2e\"",
-    "component": "cypress open --component",
-    "component:headless": "cypress run --component"
+    "cy:open": "cypress open",
+    "jest:ut": "jest",
+    "jest:ut-watch": "jest --watch"
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.1.12",
@@ -91,7 +89,12 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@jest/globals": "^30.0.2",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
     "@types/eslint": "^8.56.10",
+    "@types/jest": "^30.0.0",
     "@types/node": "^20.17.14",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -100,6 +103,9 @@
     "cypress": "^14.4.0",
     "eslint": "^8.57.0",
     "eslint-config-next": "^15.0.1",
+    "eslint-plugin-jest": "^29.0.1",
+    "jest": "^30.0.2",
+    "jest-environment-jsdom": "^30.0.2",
     "postcss": "^8.4.39",
     "prettier": "^3.3.2",
     "prettier-plugin-tailwindcss": "^0.6.5",
