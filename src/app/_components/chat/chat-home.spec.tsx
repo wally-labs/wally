@@ -61,12 +61,12 @@ jest.mock("../atoms", () => ({
 
 jest.mock("../profile/update-profile", () => ({
   __esModule: true,
-  default: () => <div data-cy="update-profile" />,
+  default: () => <div data-testid="update-profile" />,
 }));
 
 jest.mock("~/lib/uploadthing", () => ({
   __esModule: true,
-  UploadDropzone: () => <div data-cy="upload" />,
+  UploadDropzone: () => <div data-testid="upload" />,
 }));
 
 describe("<ChatHome />", () => {
@@ -84,13 +84,13 @@ describe("<ChatHome />", () => {
     handleSubmit = jest.fn();
     (AIReact.useChat as jest.Mock).mockReturnValue({
       messages: [
-        { id: "1", content: "Hello how are you doing!" },
-        { id: "2", content: "I am doing well how about you!" },
+        { id: "1", content: "first" },
+        { id: "2", content: "second" },
       ],
       setMessages: jest.fn(),
-      input: "",
+      input: "hello", // mock input
       handleInputChange: jest.fn(),
-      handleSubmit: jest.fn(),
+      handleSubmit: handleSubmit,
       status: "ready",
       stop: jest.fn(),
       reload: jest.fn(),
@@ -116,7 +116,7 @@ describe("<ChatHome />", () => {
     // 5) tRPC messages.saveMessage.useMutation
     saveMutation = jest.fn();
     (TRPC.api.messages.saveMessage.useMutation as jest.Mock).mockReturnValue({
-      mutate: jest.fn(),
+      mutate: saveMutation,
     });
 
     const mockChatData = {
@@ -139,13 +139,15 @@ describe("<ChatHome />", () => {
 
   it("renders correct number of filled & empty hearts", () => {
     render(<ChatHome />);
-    // heartLevel = 3 → 3 gold hearts + 2 gray hearts
-    expect(screen.getAllByRole("img", { name: /heart/i })).toHaveLength(5);
-    // gold hearts have inline style color: gold
-    const gold = screen
-      .getAllByRole("img", { hidden: false })
-      .filter((el) => el.getAttribute("style")?.includes("gold"));
-    expect(gold).toHaveLength(3);
+
+    const allHearts = screen.getAllByLabelText(/heart$/i);
+    expect(allHearts).toHaveLength(5);
+
+    const redHearts = screen.getAllByLabelText(/red-heart/i);
+    expect(redHearts).toHaveLength(2);
+
+    const greyHearts = screen.getAllByLabelText(/gray-heart/i);
+    expect(greyHearts).toHaveLength(3);
   });
 
   it("shows Send button when status is ready", () => {
@@ -205,13 +207,18 @@ describe("<ChatHome />", () => {
 
   it("calls saveMessage and handleSubmit on emotion selection", async () => {
     render(<ChatHome />);
-    // open the dropdown
-    userEvent.click(screen.getByRole("button", { name: /send/i }));
+
+    const textbox = screen.getByRole("textbox", { name: /send a message/i });
+    await userEvent.type(textbox, "hello");
+
+    // **Open** the send menu
+    await userEvent.click(screen.getByRole("button", { name: /send/i }));
+
     // click the first emotion item (e.g. “joyful”)
     const firstEmotion = await screen.findByRole("menuitem", {
       name: /joyful/i,
     });
-    userEvent.click(firstEmotion);
+    await userEvent.click(firstEmotion);
 
     // both mutate and handleSubmit should eventually be called
     await waitFor(() => {

@@ -262,10 +262,14 @@ export default function ChatHome() {
       <div className="flex h-[10%] w-[80%] items-center justify-between space-x-2">
         <div className="flex">
           {Array.from({ length: redHeartLevel }).map((_, i) => (
-            <Heart key={i} style={{ color: profileColor }} />
+            <Heart
+              key={i}
+              style={{ color: profileColor }}
+              aria-label="red-heart"
+            />
           ))}
           {Array.from({ length: grayHeartLevel }).map((_, i) => (
-            <Heart key={i} className="text-gray-500" />
+            <Heart key={i} className="text-gray-500" aria-label="gray-heart" />
           ))}
         </div>
         <div>
@@ -355,7 +359,7 @@ export default function ChatHome() {
             ></textarea>
             <div className="flex items-center gap-2 p-4">
               {(status === "submitted" || status === "streaming") && (
-                <Button onClick={stop} variant="main">
+                <Button onClick={stop} variant="main" aria-label="stop">
                   <StopCircle />
                 </Button>
               )}
