@@ -1,7 +1,9 @@
 // ChatHome.test.tsx
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import { expect } from "@jest/globals";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 import ChatHome from "./chat-home";
 
@@ -11,6 +13,10 @@ import * as AIReact from "@ai-sdk/react";
 import * as TRPC from "~/trpc/react";
 import * as Jotai from "jotai";
 import * as Atoms from "../atoms";
+
+let routerStub: { replace: jest.Mock; push: jest.Mock; back: jest.Mock };
+let saveMutation: jest.Mock;
+let handleSubmit: jest.Mock;
 
 Object.defineProperty(window.HTMLElement.prototype, "scrollIntoView", {
   configurable: true,
@@ -66,7 +72,7 @@ jest.mock("~/lib/uploadthing", () => ({
 describe("<ChatHome />", () => {
   beforeEach(() => {
     // 1) Router stub
-    const routerStub = {
+    routerStub = {
       push: jest.fn(),
       replace: jest.fn(),
       back: jest.fn(),
@@ -75,6 +81,7 @@ describe("<ChatHome />", () => {
     (NextNav.useParams as jest.Mock).mockReturnValue({ chats: "1" });
 
     // 2) AI hook stub
+    handleSubmit = jest.fn();
     (AIReact.useChat as jest.Mock).mockReturnValue({
       messages: [
         { id: "1", content: "Hello how are you doing!" },
@@ -107,6 +114,7 @@ describe("<ChatHome />", () => {
     });
 
     // 5) tRPC messages.saveMessage.useMutation
+    saveMutation = jest.fn();
     (TRPC.api.messages.saveMessage.useMutation as jest.Mock).mockReturnValue({
       mutate: jest.fn(),
     });
