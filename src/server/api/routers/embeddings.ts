@@ -39,65 +39,6 @@ const pronouns: Record<string, Pronouns> = {
 };
 
 export const embeddingsRouter = createTRPCRouter({
-  // TODO: redundant streamChat function, delete function once incorporate gender pronounns into main file
-  streamChat: protectedProcedure
-    .input(
-      z.object({
-        emotion: z.string(),
-        message: z.string(),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      try {
-        const profile = await ctx.db.chat.findUnique({
-          where: { id: ctx.session.userId },
-        });
-
-        const gender =
-          profile?.gender === "MALE"
-            ? pronouns.male
-            : profile?.gender === "FEMALE"
-              ? pronouns.female
-              : pronouns.nonBinary;
-
-        const response = await openAi.chat.completions.create({
-          model: "gpt-4o-mini",
-          messages: [
-            {
-              role: "developer",
-              content: [
-                {
-                  type: "text",
-                  text: `You are a helpful, professional, personal relationship wellness assistant. For context, the user is communicating 
-                  with ${gender?.adjective} ${profile?.relationship} and ${gender?.adjective} name is ${profile?.name}. The 
-                  user is ${profile?.heartLevel} close to ${gender?.adjective} ${profile?.relationship}. ${profile?.name} is 
-                  born on ${profile?.birthDate?.toString()}, is from ${profile?.country} and ${gender?.adjective} native language is 
-                  ${profile?.language}.`,
-                },
-              ],
-            },
-            {
-              role: "user",
-              content: [
-                {
-                  type: "text",
-                  text: `${input.message}. The user feels that the emotion conved in the messsage is ${input.emotion}.`,
-                },
-              ],
-            },
-          ],
-        });
-
-        return response.choices[0]?.message;
-      } catch (error) {
-        console.error("Error sending message to OpenAI API: ", error);
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to send message",
-        });
-      }
-    }),
-
   embedMessageVector: protectedProcedure
     .input(
       z.object({
@@ -109,16 +50,20 @@ export const embeddingsRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const { text, messageId, chatId } = input;
+
+      // index separated by user
       const index = ctx.pinecone
         .index("wally", "https://wally-fld29to.svc.aped-4627-b74a.pinecone.io")
         .namespace(`${ctx.session.userId}`);
 
       const embedding = await embedVector(text);
 
+      // use metadata/id filtering for messages per chat
       const upsertResponse = await index.upsert([
         {
           id: `${chatId}-${messageId}`,
           values: embedding.data[0]?.embedding,
+          metadata: { chatId: `${chatId}`, messageId: `${messageId}` },
         },
       ]);
 
@@ -151,6 +96,7 @@ export const embeddingsRouter = createTRPCRouter({
         language,
         chatId,
       } = input;
+      // index separated by user
       const index = ctx.pinecone
         .index("wally", "https://wally-fld29to.svc.aped-4627-b74a.pinecone.io")
         .namespace(`${ctx.session.userId}`);
@@ -162,10 +108,12 @@ export const embeddingsRouter = createTRPCRouter({
 
       const embedding = await embedVector(context);
 
+      // use id/metadata filtering for messages by chat
       const upsertResponse = await index.upsert([
         {
           id: `${chatId}-context`,
           values: embedding.data[0]?.embedding,
+          metadata: { chatId: `${chatId}`, messageId: "context" },
         },
       ]);
 

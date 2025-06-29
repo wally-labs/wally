@@ -54,20 +54,14 @@ export const messagesRouter = createTRPCRouter({
       const { keyword } = input;
 
       try {
-        const chatIds = await ctx.db.chat.findMany({
-          where: {
-            userId: ctx.session.userId,
-          },
-        });
-
         const messages = await ctx.db.message.findMany({
           where: {
-            chatId: {
-              in: chatIds.map((chat) => chat.id),
-            },
             content: {
               contains: keyword,
               mode: "insensitive",
+            },
+            chat: {
+              userId: ctx.session.userId,
             },
           },
           orderBy: {
@@ -107,31 +101,56 @@ export const messagesRouter = createTRPCRouter({
       const { chatId, content, messageBy, files } = input;
 
       try {
-        // update chat's updatedAt with the chatId
-        await ctx.db.chat.update({
+        const result = await ctx.db.chat.update({
           where: { id: chatId },
           data: {
+            // bump the chat’s timestamp
             updatedAt: new Date(),
-          },
-        });
 
-        const message = await ctx.db.message.create({
-          data: {
-            chatId,
-            content,
-            messageBy,
-            allMessages: [content],
-            files: {
-              create:
-                files?.map((file) => ({
-                  url: file.url,
-                  name: file.name,
-                  contentType: file.contentType,
-                })) ?? [],
+            // create the message (and any files) in the same call
+            messages: {
+              create: {
+                content,
+                messageBy,
+                allMessages: [content],
+                files: {
+                  create:
+                    files?.map((file) => ({
+                      url: file.url,
+                      name: file.name,
+                      contentType: file.contentType,
+                    })) ?? [],
+                },
+              },
+            },
+          },
+
+          // pick out just the newly‐created message to return
+          select: {
+            messages: {
+              take: 1,
+              orderBy: { createdAt: "desc" },
+              select: {
+                id: true,
+                content: true,
+                messageBy: true,
+                allMessages: true,
+                createdAt: true,
+                files: {
+                  select: {
+                    id: true,
+                    url: true,
+                    name: true,
+                    contentType: true,
+                  },
+                },
+              },
             },
           },
         });
 
+        // unpack the single message
+        const [message] = result.messages;
         return message;
       } catch (error) {
         console.error("Error saving message: ", error);
