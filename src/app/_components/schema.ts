@@ -52,3 +52,7 @@ export const formSchema = z.object({
   country: CountryEnumSchema.optional(),
   language: LanguageEnumSchema,
 });
+
+export const formSchemaResponse = formSchema.extend({
+  chatId: z.string(),
+});
