@@ -1,4 +1,4 @@
-import { string, z } from "zod";
+import { z } from "zod";
 import { embedVector } from "~/server/ai/embed";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
@@ -37,6 +37,7 @@ const pronouns: Record<string, Pronouns> = {
   },
 };
 
+// upsert message with chatId and messageId into a specific index
 export async function upsertMessage(
   message: string,
   index: Index<RecordMetadata>,
@@ -57,13 +58,14 @@ export async function upsertMessage(
   return upsertResponse;
 }
 
-function enumToLabel(str: string) {
+export function enumToLabel(str: string) {
   return str
     .split("_")
     .map((chunk) => chunk[0] + chunk.slice(1).toLowerCase())
     .join(" ");
 }
 
+// TODO: integrate into existing procedures
 export const embeddingsRouter = createTRPCRouter({
   embedProfileVector: protectedProcedure
     .input(
@@ -116,7 +118,6 @@ export const embeddingsRouter = createTRPCRouter({
         text: z.string(),
         messageId: z.string(),
         chatId: z.string(),
-        // metadata: z.string().array(),
       }),
     )
     .mutation(async ({ ctx, input }) => {

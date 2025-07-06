@@ -34,30 +34,10 @@ export default function CreateProfile() {
       toast.success(`Profile for ${data.name} created successfully!`);
       void apiUtils.chat.getAllChatHeaders.invalidate();
       router.push(`/chats/${data.id}`);
-
-      const cleanedValues = Object.fromEntries(
-        Object.entries(data).map(([key, value]) => {
-          switch (key) {
-            case "id":
-              return ["chatId", value];
-            case "birthDate":
-              return [key, value?.toLocaleString()];
-            default:
-              return value !== "" ? [key, value] : [key, undefined];
-          }
-        }),
-      ) as z.infer<typeof formSchemaResponse>;
-
-      void upsertVectorMutation.mutate(cleanedValues);
     },
     onError: () => {
       toast.error(`Failed to create profile!`);
     },
-  });
-
-  const upsertVectorMutation = api.embeddings.embedProfileVector.useMutation({
-    onSuccess: (data) => console.log("Pinecone upsert succeeded: ", data),
-    onError: (err) => console.error("Pinecone upsert failed: ", err),
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {

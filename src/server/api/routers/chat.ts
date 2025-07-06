@@ -3,6 +3,7 @@ import { z } from "zod";
 import { Gender, Relationship, Race, Country, Language } from "@prisma/client";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { enumToLabel, upsertMessage } from "./embeddings";
 
 export const chatRouter = createTRPCRouter({
   // creates a chat for the user and configures the profile for the current chat and pushes new chat to the db
@@ -48,6 +49,20 @@ export const chatRouter = createTRPCRouter({
           language,
         },
       });
+
+      const chatId = newChat.id;
+
+      // create index separated by user
+      const index = ctx.pinecone
+        .index("wally", "https://wally-fld29to.svc.aped-4627-b74a.pinecone.io")
+        .namespace(`${ctx.session.userId}`);
+
+      const context = `System: The user is currently trying to speak to ${name}. I want you to use the information provided to tailor 
+        your responses to be more personalized and culturally resonant. This is what I know about ${name}: Gender: ${enumToLabel(gender)}, Birth Date:
+        ${birthDate}, Relationship between user and ${name}: ${enumToLabel(relationship)}, Heart Level: ${heartLevel},  Race: ${race ? enumToLabel(race) : "Unknown"}, 
+        Country: ${country ? enumToLabel(country) : "Unknown"}, Language: ${enumToLabel(language)}.`;
+
+      void upsertMessage(context, index, chatId);
 
       return newChat;
     }),

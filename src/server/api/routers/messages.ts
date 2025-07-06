@@ -2,6 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { upsertMessage } from "./embeddings";
 
 export const messagesRouter = createTRPCRouter({
   getChatMessages: protectedProcedure
@@ -101,6 +102,14 @@ export const messagesRouter = createTRPCRouter({
       const { chatId, content, messageBy, files } = input;
 
       try {
+        // index separated by user
+        const index = ctx.pinecone
+          .index(
+            "wally",
+            "https://wally-fld29to.svc.aped-4627-b74a.pinecone.io",
+          )
+          .namespace(`${ctx.session.userId}`);
+
         const result = await ctx.db.chat.update({
           where: { id: chatId },
           data: {
@@ -149,8 +158,16 @@ export const messagesRouter = createTRPCRouter({
           },
         });
 
-        // unpack the single message
-        const [message] = result.messages;
+        const message = result.messages[0]!;
+
+        // upsert into pinecone but don't wait
+        void upsertMessage(
+          `${message.messageBy === "WALLY" ? "Assistant: " : "User: "}${message.content}`,
+          index,
+          chatId,
+          message.id,
+        );
+
         return message;
       } catch (error) {
         console.error("Error saving message: ", error);
