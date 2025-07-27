@@ -2,6 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { upsertMessage } from "./embeddings";
 
 export const messagesRouter = createTRPCRouter({
   getChatMessages: protectedProcedure
@@ -54,20 +55,14 @@ export const messagesRouter = createTRPCRouter({
       const { keyword } = input;
 
       try {
-        const chatIds = await ctx.db.chat.findMany({
-          where: {
-            userId: ctx.session.userId,
-          },
-        });
-
         const messages = await ctx.db.message.findMany({
           where: {
-            chatId: {
-              in: chatIds.map((chat) => chat.id),
-            },
             content: {
               contains: keyword,
               mode: "insensitive",
+            },
+            chat: {
+              userId: ctx.session.userId,
             },
           },
           orderBy: {
@@ -107,30 +102,71 @@ export const messagesRouter = createTRPCRouter({
       const { chatId, content, messageBy, files } = input;
 
       try {
-        // update chat's updatedAt with the chatId
-        await ctx.db.chat.update({
+        // index separated by user
+        const index = ctx.pinecone
+          .index(
+            "wally",
+            "https://wally-fld29to.svc.aped-4627-b74a.pinecone.io",
+          )
+          .namespace(`${ctx.session.userId}`);
+
+        const result = await ctx.db.chat.update({
           where: { id: chatId },
           data: {
+            // bump the chat’s timestamp
             updatedAt: new Date(),
-          },
-        });
 
-        const message = await ctx.db.message.create({
-          data: {
-            chatId,
-            content,
-            messageBy,
-            allMessages: [content],
-            files: {
-              create:
-                files?.map((file) => ({
-                  url: file.url,
-                  name: file.name,
-                  contentType: file.contentType,
-                })) ?? [],
+            // create the message (and any files) in the same call
+            messages: {
+              create: {
+                content,
+                messageBy,
+                allMessages: [content],
+                files: {
+                  create:
+                    files?.map((file) => ({
+                      url: file.url,
+                      name: file.name,
+                      contentType: file.contentType,
+                    })) ?? [],
+                },
+              },
+            },
+          },
+
+          // pick out just the newly‐created message to return
+          select: {
+            messages: {
+              take: 1,
+              orderBy: { createdAt: "desc" },
+              select: {
+                id: true,
+                content: true,
+                messageBy: true,
+                allMessages: true,
+                createdAt: true,
+                files: {
+                  select: {
+                    id: true,
+                    url: true,
+                    name: true,
+                    contentType: true,
+                  },
+                },
+              },
             },
           },
         });
+
+        const message = result.messages[0]!;
+
+        // upsert into pinecone but don't wait
+        void upsertMessage(
+          `${message.messageBy === "WALLY" ? "Assistant: " : "User: "}${message.content}`,
+          index,
+          chatId,
+          message.id,
+        );
 
         return message;
       } catch (error) {

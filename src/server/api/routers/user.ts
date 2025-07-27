@@ -37,17 +37,13 @@ export const userRouter = createTRPCRouter({
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.db.account.deleteMany({ where: { userId: input.id } });
-        await ctx.db.session.deleteMany({ where: { userId: input.id } });
-        await ctx.db.chat.deleteMany({ where: { userId: input.id } });
-
-        const user = await ctx.db.user.delete({
+        const deleted = await ctx.db.user.delete({
           where: {
             id: input.id,
           },
         });
 
-        return user;
+        return deleted;
       } catch (error) {
         console.error("User not found, Error deleting: ", error);
         throw new TRPCError({

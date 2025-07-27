@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 
 import { ProfileForm } from "./profile-form";
-import { formSchema } from "../schema";
+import { formSchema, formSchemaResponse } from "../schema";
 
 export default function CreateProfile() {
   const router = useRouter();
@@ -19,13 +19,13 @@ export default function CreateProfile() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      gender: "",
-      birthDate: "",
-      relationship: "",
+      gender: undefined,
+      birthDate: undefined,
+      relationship: undefined,
       heartLevel: 1,
-      race: "",
-      country: "",
-      language: "",
+      race: undefined,
+      country: undefined,
+      language: undefined,
     },
   });
 
@@ -49,8 +49,8 @@ export default function CreateProfile() {
     ) as z.infer<typeof formSchema>;
 
     createChatMutation.mutate({
-      chatHeader: values.name,
       ...cleanedValues,
+      chatHeader: values.name,
     });
   }
 
