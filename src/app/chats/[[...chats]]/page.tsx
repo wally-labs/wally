@@ -1,13 +1,12 @@
 "use client";
 
-import ChatHome from "~/app/_components/chat/chat-home";
-
 import { SidebarTrigger, useSidebar } from "~/components/ui/sidebar";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { AppSidebar } from "~/app/_components/global/app-sidebar";
 import { HeroSection } from "~/app/_components/global/hero-section";
+import ChatHome from "~/app/_components/chat/chat-home";
+
 export default function MainChat() {
   const { state } = useSidebar();
 
