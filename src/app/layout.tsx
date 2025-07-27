@@ -5,7 +5,6 @@ import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
-import Home from "~/app/_components/global/home";
 
 import { SidebarProvider } from "@components/ui/sidebar";
 import { Toaster } from "sonner";
@@ -48,11 +47,7 @@ export default function RootLayout({
         <html lang="en" className={`${GeistSans.variable}`}>
           <body>
             <TRPCReactProvider>
-              <JotaiProvider>
-                <SidebarProvider>
-                  <Home>{children}</Home>
-                </SidebarProvider>
-              </JotaiProvider>
+              <JotaiProvider>{children}</JotaiProvider>
             </TRPCReactProvider>
             <Toaster />
             <Analytics debug={false} />
