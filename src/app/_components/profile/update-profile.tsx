@@ -78,7 +78,7 @@ export default function UpdateProfile() {
         birthDate: data.birthDate ? new Date(data.birthDate).toISOString() : "",
         relationship: data.relationship,
         heartLevel: data.heartLevel,
-        race: data.relationship,
+        race: data.race ?? undefined,
         country: data.country ?? undefined,
         language: data.language,
       });

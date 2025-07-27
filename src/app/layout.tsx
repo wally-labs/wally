@@ -5,9 +5,7 @@ import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
-import Home from "~/app/_components/global/home";
 
-import { SidebarProvider } from "@components/ui/sidebar";
 import { Toaster } from "sonner";
 import JotaiProvider from "./_components/jotai-provider";
 
@@ -16,6 +14,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { HighlightInit } from "@highlight-run/next/client";
 import HighlightErrorBoundary from "~/app/_components/highlight-boundary";
 import { env } from "~/env-client";
+import { NavMenu } from "./_components/global/nav-menu";
 
 export const metadata: Metadata = {
   title: "Wally",
@@ -49,9 +48,14 @@ export default function RootLayout({
           <body>
             <TRPCReactProvider>
               <JotaiProvider>
-                <SidebarProvider>
-                  <Home>{children}</Home>
-                </SidebarProvider>
+                <div className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[white] to-[#f7faff]">
+                  <div className="h-[15vh] w-full min-w-full">
+                    <NavMenu />
+                  </div>
+                  <div className="w-full max-w-4xl flex-1 overflow-auto">
+                    {children}
+                  </div>
+                </div>
               </JotaiProvider>
             </TRPCReactProvider>
             <Toaster />

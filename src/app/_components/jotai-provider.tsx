@@ -9,7 +9,7 @@ export default function JotaiProvider({
 }: Readonly<{ children: React.ReactNode }>) {
   const user = useUser();
   const myStore = useMemo(() => {
-    console.log("Creating new store for ", user.user);
+    console.log("Creating new store for ", user.user); // TODO: remove during prod
     return createStore();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.user?.id]);
