@@ -1,11 +1,4 @@
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@components/ui/navigation-menu";
+import Link from "next/link";
 
 type NavigationMenuItem = {
   name: string;
@@ -19,7 +12,7 @@ const NavigationMenuItems: NavigationMenuItem[] = [
   },
   {
     name: "How It Works",
-    link: "/how-it-works",
+    link: "/details",
   },
   {
     name: "Testimonials",
@@ -37,21 +30,16 @@ const NavigationMenuItems: NavigationMenuItem[] = [
 
 export function NavMenu() {
   return (
-    <div className="mx-auto flex w-full justify-center py-6">
-      <NavigationMenu>
-        <NavigationMenuList>
-          {NavigationMenuItems.map((item) => {
-            return (
-              <NavigationMenuItem key={item.name}>
-                <NavigationMenuTrigger>{item.name}</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <NavigationMenuLink>{item.link}</NavigationMenuLink>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-            );
-          })}
-        </NavigationMenuList>
-      </NavigationMenu>
-    </div>
+    <nav className="mx-auto flex w-full justify-center space-x-14 py-6">
+      {NavigationMenuItems.map((item) => (
+        <Link
+          key={item.name}
+          href={item.link}
+          className="text-md text-gray-800 hover:text-gray-400"
+        >
+          {item.name}
+        </Link>
+      ))}
+    </nav>
   );
 }
