@@ -102,7 +102,7 @@ export default function ChatHome() {
   // saveMessageMutation
   const saveMessageMutation = api.messages.saveMessage.useMutation({
     onSuccess: () => {
-      console.log("Message saved to db successfully");
+      console.log("Message saved to db successfully"); // TODO: remove during prod
     },
     onError: (error) => {
       console.error("Error saving message: ", error);

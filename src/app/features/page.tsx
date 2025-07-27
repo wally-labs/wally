@@ -21,7 +21,7 @@ const featureCardData: CardData[] = [
   },
   {
     id: 3,
-    title: "Smart Matching",
+    title: "Profile Verification",
     description:
       "All profiles are verified through our advanced security system to ensure you're meeting genuine people.",
   },

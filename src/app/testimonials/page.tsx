@@ -11,7 +11,7 @@ const storyData: StoryData[] = [
   {
     id: 1,
     names: "Jessica & Mark",
-    matchedTime: "Matched 8 month ago",
+    matchedTime: "Matched 8 months ago",
     testimonial:
       "Wally AI matched us based on our love for indie films and cooking. We've been inseparable since our first date!",
     rating: 5,
@@ -29,7 +29,7 @@ const storyData: StoryData[] = [
   {
     id: 3,
     names: "Micheal & Jamie",
-    matchedTime: "Matched 6 month ago",
+    matchedTime: "Matched 6 months ago",
     testimonial:
       "After years of dating apps that didn't work, Wally AI found me someone who shares my values and quirky sense of humor.",
     rating: 5,

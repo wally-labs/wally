@@ -145,7 +145,7 @@ export default function Plans() {
                 aria-describedby={tier.id}
                 className={cn(
                   tier.featured
-                    ? "shadow-xs hover:amberTheme bg-amberTheme-darker text-white focus-visible:outline-amberTheme"
+                    ? "shadow-xs bg-amberTheme-darker text-white hover:bg-amberTheme focus-visible:outline-amberTheme"
                     : "text-amberTheme ring-1 ring-inset ring-amberTheme hover:ring-amberTheme-darker focus-visible:outline-amberTheme-darker",
                   "mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 sm:mt-10",
                 )}
