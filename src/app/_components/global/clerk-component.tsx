@@ -66,7 +66,9 @@ export default function ClerkComponent() {
     <>
       <SignedOut>
         <SignInButton>
-          <Button variant="main">Sign In</Button>
+          <Button className="rounded-full bg-gradient-to-r from-[#F20F61] to-[#7145FE] px-5 py-2.5 text-lg font-medium text-white shadow-[0_8px_20px_rgba(113,69,254,0.28)] hover:brightness-105 active:brightness-95">
+            Sign In
+          </Button>
         </SignInButton>
       </SignedOut>
       <SignedIn>

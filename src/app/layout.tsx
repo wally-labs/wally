@@ -14,7 +14,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { HighlightInit } from "@highlight-run/next/client";
 import HighlightErrorBoundary from "~/app/_components/highlight-boundary";
 import { env } from "~/env-client";
-import { NavMenu } from "./_components/global/nav-menu";
+import { ConditionalNav } from "./_components/global/conditional-nav";
 
 export const metadata: Metadata = {
   title: "Wally",
@@ -45,16 +45,17 @@ export default function RootLayout({
       )}
       <HighlightErrorBoundary>
         <html lang="en" className={`${GeistSans.variable}`}>
-          <body>
+          <body className="bg-wally-stagger min-h-screen">
             <TRPCReactProvider>
               <JotaiProvider>
-                <div className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[white] to-[#f7faff]">
-                  <div className="h-[15vh] w-full min-w-full">
-                    <NavMenu />
-                  </div>
-                  <div className="w-full max-w-4xl flex-1 overflow-auto">
-                    {children}
-                  </div>
+                <div className="flex min-h-dvh flex-col items-center bg-gradient-to-b from-white/90 to-[#f7faff]/90">
+                  <ConditionalNav />
+
+                  <main className="flex flex-1 items-center">
+                    <div className="mx-auto w-full max-w-4xl px-4">
+                      {children}
+                    </div>
+                  </main>
                 </div>
               </JotaiProvider>
             </TRPCReactProvider>

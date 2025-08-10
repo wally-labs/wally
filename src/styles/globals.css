@@ -38,6 +38,8 @@
     --sidebar-ring: 217.2 91.2% 59.8%; /* Vibrant blue */
     --amber-theme: 38.5 89.3% 63.9%; /* Warm golden yellow */
     --amber-theme-darker: 39 94% 67%; /* Warm dark yellow */
+
+    --wally-tile: 102px; /* controls density; can try 72–112 */
   }
   .dark {
     --background: 0 0% 3.9%; /* Almost black */
@@ -72,6 +74,8 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%; /* Very pale blue-gray */
     --sidebar-border: 240 3.7% 15.9%; /* Dark slate blue */
     --sidebar-ring: 217.2 91.2% 59.8%; /* Vibrant blue */
+
+    --wally-tile: 88px; /* controls density; can try 72–112 */
   }
 }
 @layer base {
@@ -81,4 +85,55 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.bg-wally-stagger {
+  background-image: url("/patterns/vector.svg"), url("/patterns/vector.svg");
+  background-repeat: repeat, repeat;
+  background-size:
+    var(--wally-tile) var(--wally-tile),
+    var(--wally-tile) var(--wally-tile);
+  background-position:
+    0 0,
+    calc(var(--wally-tile) / 2) calc(var(--wally-tile) / 2);
+}
+
+.btn-primary-gradient {
+  @apply rounded-2xl px-8 py-6 text-lg text-white transition-transform duration-150;
+  background-image: linear-gradient(90deg, #f20f61 0%, #7145fe 100%);
+  box-shadow: 0 10px 24px rgba(113, 69, 254, 0.24);
+}
+.btn-primary-gradient:hover {
+  filter: brightness(1.1);
+}
+.btn-primary-gradient:active {
+  transform: translateY(1px);
+}
+
+/* Gradient outline + gradient text (transparent center) */
+.btn-outline-gradient {
+  @apply rounded-2xl px-8 py-6 text-lg;
+  background-color: transparent;
+  box-shadow: 0 10px 24px rgba(113, 69, 254, 0.24);
+
+  background-image: linear-gradient(90deg, #7145fe 0%, #f20f61 100%);
+  -webkit-background-clip: text; /* Safari/Chrome */
+  background-clip: text;
+  -webkit-text-fill-color: transparent; /* Safari */
+  color: transparent; /* everyone else */
+}
+.btn-outline-gradient:hover {
+  filter: brightness(1.2);
+}
+
+.btn-login-gradient {
+  @apply rounded-2xl px-2 py-2 text-white transition-transform duration-150;
+  background-image: linear-gradient(90deg, #f20f61 0%, #7145fe 100%);
+  box-shadow: 0 10px 24px rgba(113, 69, 254, 0.24);
+}
+.btn-login-gradient:hover {
+  filter: brightness(1.1);
+}
+.btn-login-gradient:active {
+  transform: translateY(1px);
 }

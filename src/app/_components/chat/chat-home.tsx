@@ -81,7 +81,7 @@ export default function ChatHome() {
   // reroute to home page if chat is not existent/when user logs out..
   useEffect(() => {
     if (!isLoading && (isError || (!focusedChat && !queriedChatData))) {
-      router.replace("/");
+      router.replace("/chats");
       toast.error(`Unable to load conversation ${chatId}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
