@@ -36,7 +36,6 @@ export function NavMenu() {
       {/* Left: logo */}
       <div className="flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          {/* Update src to your logo mark path */}
           <Image
             src="/wally-logo.png"
             alt="Wally"

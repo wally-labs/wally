@@ -6,8 +6,8 @@ import { HydrateClient } from "~/trpc/server";
 export default async function Home() {
   return (
     <HydrateClient>
-      <div className="flex flex-col items-center justify-center gap-6 py-12 text-black">
-        <h1 className="m-0 flex items-center justify-center">
+      <div className="flex flex-col items-center justify-center gap-6 text-black">
+        <h1 className="items-center justify-center">
           <span className="sr-only">WALLY</span>
           <Image
             src="/wally-main-header.svg"
@@ -42,7 +42,7 @@ export default async function Home() {
 
           {/* Gradient border + gradient text */}
           <Button asChild className="btn-outline-gradient">
-            <Link href="/how-it-works">See How It Works</Link>
+            <Link href="/details">See How It Works</Link>
           </Button>
         </div>
       </div>

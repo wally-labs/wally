@@ -47,23 +47,13 @@ interface Tier {
 
 export default function Plans() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-20 bg-gradient-to-b from-[white] to-[#f7faff] py-12 text-black">
+    <div className="flex min-h-screen flex-col items-center justify-center gap-20 py-12 text-black">
       <div className="px-6 py-24 sm:py-12 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
-          <h2
-            className="text-xl font-semibold text-amberTheme-darker"
-            data-cy="pricing-header"
-          >
-            Pricing
-          </h2>
-          <p className="mt-2 text-balance text-5xl font-semibold tracking-tight text-amberTheme sm:text-6xl">
+          <p className="mt-2 text-balance text-5xl font-semibold tracking-tight text-black sm:text-6xl">
             Choose the right plan for you
           </p>
         </div>
-        <p className="mx-auto mt-6 max-w-2xl text-pretty text-center text-lg font-medium text-gray-600 sm:text-xl/8">
-          Unfortunately, you are not signed in to use Wally, Click on the
-          &apos;Sign Up&apos; button above for free Beta access now!
-        </p>
         <div className="mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
           {tiers.map((tier, tierIdx) => (
             <div

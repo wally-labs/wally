@@ -14,7 +14,7 @@ export function ConditionalNav() {
   }
 
   return (
-    <div className="h-[15vh] w-full min-w-full">
+    <div className="w-full min-w-full">
       <NavMenu />
     </div>
   );
