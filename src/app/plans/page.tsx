@@ -50,7 +50,7 @@ export default function Plans() {
     <div className="flex min-h-screen flex-col items-center justify-center gap-20 py-12 text-black">
       <div className="px-6 py-24 sm:py-12 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
-          <p className="mt-2 text-balance text-5xl font-semibold tracking-tight text-black sm:text-6xl">
+          <p className="mt-2 text-balance text-5xl font-semibold tracking-tight text-amberTheme sm:text-6xl">
             Choose the right plan for you
           </p>
         </div>

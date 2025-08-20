@@ -30,7 +30,7 @@ const featureCardData: CardData[] = [
 
 export default function Features() {
   return (
-    <div>
+    <div className="max-w-6xl">
       <div className="mx-auto">
         {/* Header */}
         <div className="mb-16 text-center">

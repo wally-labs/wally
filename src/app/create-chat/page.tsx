@@ -1,9 +1,66 @@
-import CreateProfile from "~/app/_components/profile/create-profile";
+"use client";
 
-export default async function CreateChat() {
+import { type z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { api } from "~/trpc/react";
+
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+
+import { ProfileForm } from "../_components/profile/profile-form";
+import { formSchema } from "../_components/schema";
+
+export default function CreateProfile() {
+  const router = useRouter();
+  const apiUtils = api.useUtils();
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      gender: undefined,
+      birthDate: "",
+      relationship: undefined,
+      heartLevel: 1,
+      race: undefined,
+      country: undefined,
+      language: undefined,
+    },
+  });
+
+  const createChatMutation = api.chat.createChat.useMutation({
+    onSuccess: (data) => {
+      toast.success(`Profile for ${data.name} created successfully!`);
+      void apiUtils.chat.getAllChatHeaders.invalidate();
+      router.push(`/chats/${data.id}`);
+    },
+    onError: () => {
+      toast.error(`Failed to create profile!`);
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    // Removes empty values and replaces them with undefined
+    const cleanedValues = Object.fromEntries(
+      Object.entries(values).map(([key, value]) =>
+        value !== "" ? [key, value] : [key, undefined],
+      ),
+    ) as z.infer<typeof formSchema>;
+
+    createChatMutation.mutate({
+      chatHeader: values.name,
+      ...cleanedValues,
+    });
+  }
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[white] to-[#f7faff] text-black">
-      <CreateProfile />
+    <div className="mx-auto mt-16 max-w-3xl p-4">
+      <ProfileForm
+        form={form}
+        handleSubmit={onSubmit}
+        submitLabel="Create Profile"
+      />
     </div>
   );
 }

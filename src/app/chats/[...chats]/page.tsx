@@ -21,8 +21,7 @@ export default function MainChat() {
         )}
       </AppSidebar>
       <HeroSection state={state}>
-        {" "}
-        <div className="flex min-h-screen flex-col items-center justify-center gap-20 bg-gradient-to-b from-[white] to-[#f7faff] py-12 text-black">
+        <div className="min-w-screen flex min-h-screen flex-col items-center py-24">
           <ChatHome />
         </div>
       </HeroSection>

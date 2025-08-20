@@ -57,7 +57,7 @@ export default function RootLayout({
                     className="grid flex-1 place-items-center"
                     style={{ minHeight: `calc(100dvh - ${HEADER_HEIGHT}px)` }}
                   >
-                    <div className="w-full max-w-4xl px-4">{children}</div>
+                    <div className="w-full">{children}</div>
                   </main>
                 </div>
               </JotaiProvider>

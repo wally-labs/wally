@@ -92,7 +92,7 @@ const StarRating = ({ rating }: { rating: number }) => {
 
 export default function Testimonials() {
   return (
-    <div>
+    <div className="max-w-6xl">
       <div className="mx-auto">
         <div className="mb-16 text-center">
           <h1 className="mb-4 text-5xl font-bold text-gray-900 md:text-6xl">

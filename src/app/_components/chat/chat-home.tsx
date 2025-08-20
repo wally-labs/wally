@@ -258,7 +258,7 @@ export default function ChatHome() {
 
   return (
     // DIVIDE into components once ui is decided -> components take in heart level as input and return ui accordingly
-    <div className="flex min-h-[80vh] min-w-[65vw] flex-col items-center justify-between gap-10 bg-gradient-to-b from-[white] to-[#f7faff] py-12 text-black">
+    <div className="flex min-h-[80vh] min-w-[65vw] flex-col items-center justify-between gap-10 text-black">
       <div className="flex h-[10%] w-[80%] items-center justify-between space-x-2">
         <div className="flex">
           {Array.from({ length: redHeartLevel }).map((_, i) => (
@@ -313,7 +313,7 @@ export default function ChatHome() {
       </ScrollArea>
       <div className="mx-auto flex w-[65vw] flex-col gap-0">
         <UploadDropzone
-          className="relative m-0 max-h-[30px] w-full overflow-visible rounded-b-none border-b-0 bg-gray-100/50 p-0 ut-allowed-content:hidden ut-label:text-amberTheme ut-uploading:ut-label:text-amberTheme-darker"
+          className="relative m-0 max-h-[30px] w-full overflow-visible rounded-b-none border-b-0 p-0 ut-allowed-content:hidden ut-label:text-amberTheme ut-uploading:ut-label:text-amberTheme-darker"
           endpoint="imageUploader"
           config={{
             mode: "auto",

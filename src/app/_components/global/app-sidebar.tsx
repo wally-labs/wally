@@ -120,7 +120,7 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
   const [deletingChatId, setDeletingChatId] = useState<string | null>(null);
 
   return (
-    <Sidebar>
+    <Sidebar className="h-dvh w-64">
       <div className="top-0 flex w-full items-center justify-between p-3">
         {children}
       </div>

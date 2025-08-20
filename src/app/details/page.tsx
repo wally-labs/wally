@@ -36,8 +36,8 @@ const stepData: StepData[] = [
 
 export default function WallyDetails() {
   return (
-    <div>
-      <div className="mx-auto max-w-7xl">
+    <div className="max-w-6xl">
+      <div className="mx-auto">
         <div className="mb-16 text-center">
           <h1 className="mb-4 flex items-center justify-center gap-3 text-5xl font-bold leading-none text-gray-900 md:text-6xl">
             <span>How</span>
