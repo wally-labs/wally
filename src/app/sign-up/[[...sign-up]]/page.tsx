@@ -4,14 +4,14 @@ export default function CustomSignUp() {
   return (
     <div className="flex items-center justify-center">
       <SignUp
+        afterSignOutUrl={"/"}
         appearance={{
           elements: {
-            formButtonPrimary:
-              "bg-amberTheme hover:bg-amberTheme-darker border-amberTheme shadow-amberTheme",
+            formButtonPrimary: "btn-login-gradient !ring-0",
           },
           layout: {
             socialButtonsPlacement: "bottom",
-            logoImageUrl: "/favicon.ico",
+            logoImageUrl: "/wally-logo.png",
           },
         }}
       />

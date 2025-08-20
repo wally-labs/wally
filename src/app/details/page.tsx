@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 interface StepData {
@@ -35,15 +36,22 @@ const stepData: StepData[] = [
 
 export default function WallyDetails() {
   return (
-    <div className="min-h-screen bg-white px-4 py-16">
+    <div>
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 text-center">
-          <h1 className="mb-4 text-5xl font-bold text-gray-900 md:text-6xl">
-            How{" "}
-            <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-purple-600 bg-clip-text text-transparent">
-              WALLY
-            </span>{" "}
-            Works
+          <h1 className="mb-4 flex items-center justify-center gap-3 text-5xl font-bold leading-none text-gray-900 md:text-6xl">
+            <span>How</span>
+            <span className="sr-only"> WALLY </span>
+            <Image
+              src="/wally-main-header.svg"
+              alt=""
+              aria-hidden="true"
+              width={400}
+              height={100}
+              priority
+              className="h-[1em] w-auto align-middle"
+            />
+            <span>Works</span>
           </h1>
         </div>
 

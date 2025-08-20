@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 interface StoryData {
   id: number;
   names: string;
@@ -11,11 +13,18 @@ const storyData: StoryData[] = [
   {
     id: 1,
     names: "Jessica & Mark",
-    matchedTime: "Matched 8 months ago",
+    matchedTime: "Matched 8 mths ago",
     testimonial:
       "Wally AI matched us based on our love for indie films and cooking. We've been inseparable since our first date!",
     rating: 5,
-    avatar: <div className="h-full w-full rounded-full bg-gray-300"></div>, // Placeholder avatar
+    avatar: (
+      <Image
+        src={"/wally-testimonial-logo.png"}
+        alt="Wally Testimonial Logo"
+        height={64}
+        width={64}
+      />
+    ),
   },
   {
     id: 2,
@@ -24,16 +33,30 @@ const storyData: StoryData[] = [
     testimonial:
       "I was skeptical about AI matching, but Wally found me someone who truly gets me. We're planning our wedding now!",
     rating: 5,
-    avatar: <div className="h-full w-full rounded-full bg-gray-300"></div>,
+    avatar: (
+      <Image
+        src={"/wally-testimonial-logo.png"}
+        alt="Wally Testimonial Logo"
+        height={64}
+        width={64}
+      />
+    ),
   },
   {
     id: 3,
     names: "Micheal & Jamie",
-    matchedTime: "Matched 6 months ago",
+    matchedTime: "Matched 6 mths ago",
     testimonial:
       "After years of dating apps that didn't work, Wally AI found me someone who shares my values and quirky sense of humor.",
     rating: 5,
-    avatar: <div className="h-full w-full rounded-full bg-gray-300"></div>,
+    avatar: (
+      <Image
+        src={"/wally-testimonial-logo.png"}
+        alt="Wally Testimonial Logo"
+        height={64}
+        width={64}
+      />
+    ),
   },
 ];
 
@@ -69,8 +92,8 @@ const StarRating = ({ rating }: { rating: number }) => {
 
 export default function Testimonials() {
   return (
-    <div className="min-h-screen bg-white px-4 py-16">
-      <div className="mx-auto max-w-6xl">
+    <div>
+      <div className="mx-auto">
         <div className="mb-16 text-center">
           <h1 className="mb-4 text-5xl font-bold text-gray-900 md:text-6xl">
             Success Stories
@@ -81,7 +104,7 @@ export default function Testimonials() {
           {storyData.map((story) => (
             <div
               key={story.id}
-              className="flex-1 rounded-2xl p-6 text-left shadow-sm"
+              className="flex-1 rounded-2xl bg-white p-6 text-left shadow-sm"
             >
               <div className="mb-6 flex items-center gap-4">
                 <div className="h-16 w-16 rounded-full bg-gradient-to-br from-pink-500 via-purple-500 to-purple-600 p-0.5">

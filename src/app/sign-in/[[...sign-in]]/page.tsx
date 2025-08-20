@@ -2,16 +2,16 @@ import { SignIn } from "@clerk/nextjs";
 
 export default function CustomSignIn() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50">
+    <div className="flex items-center justify-center">
       <SignIn
+        afterSignOutUrl={"/"}
         appearance={{
           elements: {
-            formButtonPrimary:
-              "bg-amberTheme hover:bg-amberTheme-darker border-amberTheme",
+            formButtonPrimary: "btn-login-gradient !ring-0",
           },
           layout: {
             socialButtonsPlacement: "bottom",
-            logoImageUrl: "/favicon.ico",
+            logoImageUrl: "/wally-logo.png",
           },
         }}
       />

@@ -1,13 +1,26 @@
+import Image from "next/image";
+import Link from "next/link";
 import { Button } from "~/components/ui/button";
 import { HydrateClient } from "~/trpc/server";
 
 export default async function Home() {
   return (
     <HydrateClient>
-      <div className="flex flex-col items-center justify-center gap-6 bg-gradient-to-b from-[white] to-[#f7faff] py-12 text-black">
-        <h1 className="text-5xl font-bold text-amberTheme">WALLY</h1>
+      <div className="flex flex-col items-center justify-center gap-6 text-black">
+        <h1 className="items-center justify-center">
+          <span className="sr-only">WALLY</span>
+          <Image
+            src="/wally-main-header.svg"
+            alt=""
+            aria-hidden="true"
+            width={960} // pick any large-ish width
+            height={240} // aspect ratio of your SVG
+            priority
+            className="h-24 w-auto sm:h-28 md:h-36 lg:h-44"
+          />
+        </h1>
 
-        <h2 className="text-2xl font-semibold">
+        <h2 className="text-3xl font-semibold">
           Find Your Perfect Match With{" "}
           <span className="bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
             AI-Powered{" "}
@@ -22,14 +35,14 @@ export default async function Home() {
         </p>
 
         <div className="flex gap-4">
-          <Button variant="main" className="px-8 py-4">
-            Get Started Free
+          {/* Filled gradient */}
+          <Button asChild className="btn-primary-gradient">
+            <Link href="/chats">Get Started Free</Link>
           </Button>
-          <Button
-            variant="outline"
-            className="px-8 py-4 text-purple-400 hover:border-pink-500 hover:text-white"
-          >
-            See How It Works
+
+          {/* Gradient border + gradient text */}
+          <Button asChild className="btn-outline-gradient">
+            <Link href="/details">See How It Works</Link>
           </Button>
         </div>
       </div>
