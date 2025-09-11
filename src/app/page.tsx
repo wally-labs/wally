@@ -21,17 +21,17 @@ export default async function Home() {
         </h1>
 
         <h2 className="text-3xl font-semibold">
-          Find Your Perfect Match With{" "}
+          Your AI Companion for{" "}
           <span className="bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
-            AI-Powered{" "}
+            Better{" "}
           </span>
-          Dating
+          Relationships
         </h2>
 
         <p className="max-w-xl text-center text-base leading-relaxed">
-          Wally AI understands your preferences, personality, and dating goals
-          to connect you with compatible matches. Say goodbye to endless
-          swiping!
+          Wally is all about helping you build stronger connections. Reflect,
+          grow, and nurture the relationships that matter the most with an AI
+          that listens, remembers and supports.
         </p>
 
         <div className="flex gap-4">

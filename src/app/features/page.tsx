@@ -10,21 +10,21 @@ interface CardData {
 const featureCardData: CardData[] = [
   {
     id: 1,
-    title: "Smart Matching",
+    title: "Reflect & Journal",
     description:
-      "Our AI analyzes thousands of data points to find truly compatible matches based on personality, values, and lifestyle.",
+      "Capture your daily thoughts and emotions. Wally helps you uncover patterns in how you connect and communicate.",
   },
   {
     id: 2,
-    title: "Date Planning",
+    title: "Personalized Insights",
     description:
-      "Get personalized date ideas based on mutual interests, location, and preferences to create memorable experiences.",
+      "Get AI-powered feedback on your relationship dynamics, from communication styles to emotional well-being.",
   },
   {
     id: 3,
-    title: "Profile Verification",
+    title: "Continuous Support",
     description:
-      "All profiles are verified through our advanced security system to ensure you're meeting genuine people.",
+      "Wally remembers your journey, offering gentle nudges and reminders to help you stay present and connected.",
   },
 ];
 

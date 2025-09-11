@@ -10,27 +10,26 @@ interface StepData {
 const stepData: StepData[] = [
   {
     stepNumber: "1",
-    title: "Create Profile",
-    description:
-      "Tell Wally about yourself, your interests, and what you're looking for",
+    title: "Check In",
+    description: "Share how you’re feeling and what’s on your mind.",
   },
   {
     stepNumber: "2",
-    title: "AI Analysis",
+    title: "Reflect Together",
     description:
-      "Our AI analyzes your profile to understand your dating preferences",
+      "Wally helps you process emotions, conflicts, and milestones with empathy.",
   },
   {
     stepNumber: "3",
-    title: "Get Matches",
+    title: "Discover Insights",
     description:
-      "Receive highly compatible matches based on your unique profile",
+      "See trends and highlights from your past reflections to better understand yourself and your relationships.",
   },
   {
     stepNumber: "4",
-    title: "Connect",
+    title: "Grow Daily",
     description:
-      "Chat, video call, and meet your matches with AI-guided conversation starters",
+      "Receive personalized suggestions and reminders to strengthen your bonds over time.",
   },
 ];
 

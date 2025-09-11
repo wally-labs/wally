@@ -3,7 +3,6 @@ import Image from "next/image";
 interface StoryData {
   id: number;
   names: string;
-  matchedTime: string;
   testimonial: string;
   rating: number;
   avatar: React.ReactNode;
@@ -12,10 +11,9 @@ interface StoryData {
 const storyData: StoryData[] = [
   {
     id: 1,
-    names: "Jessica & Mark",
-    matchedTime: "Matched 8 mths ago",
+    names: "Aisha",
     testimonial:
-      "Wally AI matched us based on our love for indie films and cooking. We've been inseparable since our first date!",
+      "Wally helped me recognize patterns in my communication I’d never noticed before. It’s like having a coach who actually listens.",
     rating: 5,
     avatar: (
       <Image
@@ -28,10 +26,9 @@ const storyData: StoryData[] = [
   },
   {
     id: 2,
-    names: "David & Sarah",
-    matchedTime: "Matched 1 year ago",
+    names: "Daniel",
     testimonial:
-      "I was skeptical about AI matching, but Wally found me someone who truly gets me. We're planning our wedding now!",
+      "I use Wally as a daily journal, and it’s made me more mindful in my relationship with my partner.",
     rating: 5,
     avatar: (
       <Image
@@ -44,10 +41,9 @@ const storyData: StoryData[] = [
   },
   {
     id: 3,
-    names: "Micheal & Jamie",
-    matchedTime: "Matched 6 mths ago",
+    names: "Jamie",
     testimonial:
-      "After years of dating apps that didn't work, Wally AI found me someone who shares my values and quirky sense of humor.",
+      "The reminders are subtle but powerful. I’ve become more intentional in showing appreciation to the people I love.",
     rating: 5,
     avatar: (
       <Image
@@ -115,12 +111,9 @@ export default function Testimonials() {
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900">
-                    {story.names}
-                  </h3>
-                  <p className="text-sm text-gray-500">{story.matchedTime}</p>
-                </div>
+                <h3 className="text-xl font-bold text-gray-900">
+                  {story.names}
+                </h3>
               </div>
 
               <blockquote className="mb-4 leading-relaxed text-gray-700">
